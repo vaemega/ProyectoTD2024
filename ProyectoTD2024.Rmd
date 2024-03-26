@@ -1,0 +1,25 @@
+---
+title: "ProyectoTD2024"
+author: "Sergio Taengua Díaz"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+
+
+
+```{r}
+library(hms)
+library(readr)
+ticket <- 'data/20240109 Mercadona 7,35 Ôé¼.txt'
+
+read.delim(ticket)
+
+df_ticket <- as.data.frame(readLines(ticket))
+```
