@@ -11,7 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Introducción
+Un conocido supermercado ha implantado el ticket electrónico y los usuarios que lo deseen pueden recibirlo como documento pdf en su correo electrónico, en lugar de hacerlo en papel.
 
+Nuestro objetivo es implementar un programa que sea capaz de analizar los tickets y sacar la información más relevante sobre ellos como los productos más consumidos, hora de compra más habitual...
 
 
 ```{r}
