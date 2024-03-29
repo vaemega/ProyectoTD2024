@@ -21,16 +21,26 @@ Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda d
 ```{r}
 library(hms)
 library(readr)
-ticket <- readLines("data/20231218 Mercadona 60,47 Ôé¼.txt")
+conjunto_de_datos <- function(path){
+  ticket <- readLines(path)
 cantidad <- c()
 descripcion <- c()
 alimento <- c()
 precio <- c()
-precio_kg <- c()
+lineas <- readLines(path)
+cantidad_lineas <- length(lineas)
+m <- c("A", "B", "C", "D", "E", "F", "G", "H", "I",
+                       "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+                       "S", "T", "U", "V", "W", "X", "Y", "Z")
+
 n <- 1
-# Loop through each line of the receipt
+s <- 0
+
 for (linea in ticket){
   if (!is.null(linea)){
+    linea <- iconv(linea, "latin1", "ASCII", sub = "")
+    linea <- gsub("Ñ", "N", linea)
+    
     if (n == 2){
       calle <- linea
       
@@ -42,7 +52,7 @@ for (linea in ticket){
       linea_fech1 <- strsplit(linea_fech," ")
       fecha <- linea_fech1[[1]][1]  
       hora <- linea_fech1[[1]][2] 
-    } else if (grepl("^\\d", linea) & !grepl("kg|€|%", linea)){
+    } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) & n != cantidad_lineas - 7){
       cant <- as.numeric(regmatches(linea, regexec("\\d+", linea))[[1]])
       cantidad <- c(cantidad,cant)
       
@@ -50,17 +60,39 @@ for (linea in ticket){
       descrip <- gsub("\\s*\\d+(,\\d+)?$", "", descrip)
       
       descripcion <- c(descripcion,descrip)
-      prec <- (gsub(",", ".",regmatches(linea,regexec("\\d+,\\d+",linea))[[1]]))
-      precio <- c(precio,prec)
+      linea <- strsplit(linea, "\\s+")[[1]]
+      prec <- linea[length(linea)]
+      print(prec)
+      prir <- substr(prec, 3, 3)
+      if (prir %in% m){
+        s <- 1
+        print("hola")
+      } else {
+        s <- 0
+        precio <- c(precio,prec)
+      }
+    } else if (grepl("TARJETA BANCARIA", linea)){
+      metodo_pago <- regmatches(linea, regexec("TARJETA (DE )?PAGO", linea))[[1]]
+      s <- 0
+    } else if (s == 1){
+      elementos <- strsplit(linea, " ")[[1]]
+      numero <- elementos[length(elementos)]
+      precio <- c(precio,numero)
+      print(numero)
+      s <- 0
     }
   }
   n <- n + 1
 }
 
-descripcion
-fecha
-hora
-precio
+vector_cod <- rep(cod, times = length(descripcion))
+vector_calle <- rep(calle, times = length(descripcion))
+vector_hora <- rep(hora, times = length(descripcion))
+vector_fecha <- rep(fecha, times = length(descripcion))
+df <- data.frame(Alimento = descripcion, Precio = precio, hora = hora,
+                 fecha = fecha, calle = calle, codigo = cod)
+return(df)
+}
 ```
 
 # Preguntas
