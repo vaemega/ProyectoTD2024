@@ -1,6 +1,6 @@
 ---
 title: "ProyectoTD2024"
-author: "Sergio Taengua Díaz"
+author: "Sergio Taengua Díaz, Valentina Elisa Medina Gallazzi, Narcis Casian Romega, Sheida Zolfaghari"
 date: "`r Sys.Date()`"
 output: html_document
 ---
