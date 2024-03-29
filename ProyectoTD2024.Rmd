@@ -19,9 +19,44 @@ Nuestro objetivo es implementar un programa que sea capaz de analizar los ticket
 ```{r}
 library(hms)
 library(readr)
-ticket <- 'data/20240109 Mercadona 7,35 Ôé¼.txt'
+ticket <- readLines("data/20231218 Mercadona 60,47 Ôé¼.txt")
+cantidad <- c()
+descripcion <- c()
+alimento <- c()
+precio <- c()
+precio_kg <- c()
+n <- 1
+# Loop through each line of the receipt
+for (linea in ticket){
+  if (!is.null(linea)){
+    if (n == 2){
+      calle <- linea
+      
+    } else if (n == 3){
+      cod <- linea
+      
+    } else if (n == 5){
+      linea_fech <- substr(linea,1,16)
+      linea_fech1 <- strsplit(linea_fech," ")
+      fecha <- linea_fech1[[1]][1]  
+      hora <- linea_fech1[[1]][2] 
+    } else if (grepl("^\\d", linea) & !grepl("kg|€|%", linea)){
+      cant <- as.numeric(regmatches(linea, regexec("\\d+", linea))[[1]])
+      cantidad <- c(cantidad,cant)
+      
+      descrip <- gsub("^\\d+\\s*", "", linea)
+      descrip <- gsub("\\s*\\d+(,\\d+)?$", "", descrip)
+      
+      descripcion <- c(descripcion,descrip)
+      prec <- (gsub(",", ".",regmatches(linea,regexec("\\d+,\\d+",linea))[[1]]))
+      precio <- c(precio,prec)
+    }
+  }
+  n <- n + 1
+}
 
-read.delim(ticket)
-
-df_ticket <- as.data.frame(readLines(ticket))
+descripcion
+fecha
+hora
+precio
 ```
