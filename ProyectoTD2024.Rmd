@@ -11,10 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Introducción
+
 Un conocido supermercado ha implantado el ticket electrónico y los usuarios que lo deseen pueden recibirlo como documento pdf en su correo electrónico, en lugar de hacerlo en papel.
 
 Nuestro objetivo es implementar un programa que sea capaz de analizar los tickets y sacar la información más relevante sobre ellos como los productos más consumidos, hora de compra más habitual...
-
 
 ```{r}
 library(hms)
@@ -60,3 +60,17 @@ fecha
 hora
 precio
 ```
+
+# Preguntas
+
+Una vez que hemos garantizado que nuestros datos se encuentran en la estructura adecuada, podemos comenzar a explorar posibles patrones y tendencias que puedan surgir de nuestra información.
+
+Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
+
+**Cambio de Precio**: ¿Qué productos son los que más cambian de precio? ¿Existen productos con precios más estables que otros?
+
+**Productos Populares**: ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
+
+**Hora de Compra**: ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
+
+**Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
