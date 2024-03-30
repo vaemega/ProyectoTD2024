@@ -82,6 +82,9 @@ for (linea in ticket){
       precio <- c(precio,numero)
       print(numero)
       s <- 0
+    } else if (n == cantidad_lineas - 5){
+      pago <- sub(":.*", "", linea)
+      
     }
   }
   n <- n + 1
@@ -91,15 +94,16 @@ vector_cod <- rep(cod, times = length(descripcion))
 vector_calle <- rep(calle, times = length(descripcion))
 vector_hora <- rep(hora, times = length(descripcion))
 vector_fecha <- rep(fecha, times = length(descripcion))
+vector_pago <- rep(pago, times = length(descripcion))
 df <- data.frame(Alimento = descripcion,Cantidad = cantidad, Precio = precio, hora = hora,
-                 fecha = fecha, calle = calle, codigo = cod)
+                 fecha = fecha, calle = calle, codigo = cod, Pago = pago)
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
+df <- subset(df, !grepl("^%", df$Alimento))
 return(df)
 }
-s <- "data/20240102 Mercadona 70,04 Ôé¼.txt"
+s <- "data/20240316 Mercadona 51,42 €.txt"
 df_s <- conjunto_de_datos(s)
-df_s %>% summarise(suma = sum(df_s$Precio))
 ```
 
 # Preguntas
