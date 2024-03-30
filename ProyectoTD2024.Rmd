@@ -102,8 +102,50 @@ df$Precio <- as.numeric(df$Precio)
 df <- subset(df, !grepl("^%", df$Alimento))
 return(df)
 }
-s <- "data/20240316 Mercadona 51,42 €.txt"
-df_s <- conjunto_de_datos(s)
+ticket1<-"data/20231218 Mercadona 60,47 Ôé¼.txt"
+ticket2<-"data/20231224 Mercadona 37,49 Ôé¼.txt"
+ticket3<-"data/20231226 Mercadona 25,83 Ôé¼.txt"
+ticket4<-"data/20231230 Mercadona 66,30 Ôé¼.txt"
+ticket5<-"data/20240102 Mercadona 70,04 Ôé¼.txt"
+ticket6<-"data/20240108 Mercadona 83,73 Ôé¼.txt"
+ticket7<-"data/20240109 Mercadona 7,35 Ôé¼.txt"
+ticket8<-"data/20240111 Mercadona 41,20 Ôé¼.txt"
+ticket9<-"data/20240115 Mercadona 117,41 Ôé¼.txt"
+ticket10<-"data/20240123 Mercadona 44,13 Ôé¼.txt"
+ticket11<-"data/20240127 Mercadona 108,33 Ôé¼.txt"
+ticket12<-"data/20240131 Mercadona 16,82 Ôé¼.txt"
+ticket13<-"data/20240326 Mercadona 13,03 €.txt"
+ticket14<-"data/20240309 Mercadona 96,87 €.txt"
+ticket15<-"data/20240213 Mercadona 16,73 €.txt"
+ticket16<-"data/20240313 Mercadona 4,50 €.txt"
+ticket17<-"data/20240316 Mercadona 51,42 €.txt"
+ticket18<-"data/20240318 Mercadona 16,59 €.txt"
+ticket19<-"data/20240320 Mercadona 12,11 €.txt"
+ticket20<-"data/20240307 Mercadona 39,45 €.txt"
+  
+  
+
+
+df_ticket1 <- conjunto_de_datos(ticket1)
+df_ticket2<- conjunto_de_datos(ticket2)
+df_ticket3 <- conjunto_de_datos(ticket3)
+df_ticket4 <- conjunto_de_datos(ticket4)
+df_ticket5 <- conjunto_de_datos(ticket5)
+df_ticket6 <- conjunto_de_datos(ticket6)
+df_ticket7 <- conjunto_de_datos(ticket7)
+df_ticket8 <- conjunto_de_datos(ticket8)
+df_ticket9 <- conjunto_de_datos(ticket9)
+df_ticket10 <- conjunto_de_datos(ticket10)
+df_ticket11<- conjunto_de_datos(ticket11)
+df_ticket12<- conjunto_de_datos(ticket12)
+df_ticket13<- conjunto_de_datos(ticket13)
+df_ticket14<- conjunto_de_datos(ticket14)
+df_ticket15<- conjunto_de_datos(ticket15)
+df_ticket16<- conjunto_de_datos(ticket16)
+df_ticket17<- conjunto_de_datos(ticket17)
+df_ticket18<- conjunto_de_datos(ticket18)
+df_ticket19<- conjunto_de_datos(ticket19)
+df_ticket20<- conjunto_de_datos(ticket20)
 ```
 
 # Preguntas
