@@ -215,6 +215,8 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 
 Para responder a las siguientes preguntas usaremos tan solo las variables de interés.Las podemos observar en 
 esta tabla
+
+Tabla 1. Variables que emplearemos
 ```{r, echo=FALSE}
 knitr::kable(tabla, booktabs = TRUE)
 ```
