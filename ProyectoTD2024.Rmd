@@ -72,7 +72,8 @@ for (linea in ticket){
       #Buscamos la lineas con los patrones necesarios y paramos cuando leamos la
       # cantidad de lineas totales - 7, ya que allí es donde ya no hay más
       #alimentos
-    } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) & n != cantidad_lineas - 7){
+    } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) &
+               n != cantidad_lineas - 7){
       #Extraemos la cantidad y la añadimos a nuestro vector.Hacemos el mismo
       #proceso para la descripción(el producto)
       cant <- as.numeric(regmatches(linea, regexec("\\d", linea))[[1]])
