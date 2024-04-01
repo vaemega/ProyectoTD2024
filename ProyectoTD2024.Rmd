@@ -154,10 +154,18 @@ Una vez que hemos garantizado que nuestros datos se encuentran en la estructura 
 
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
 
-**Cambio de Precio**: ¿Qué productos son los que más cambian de precio? ¿Existen productos con precios más estables que otros?
+**Cambio de Precio:** ¿Qué productos son los que más cambian de precio? ¿Existen productos con precios más estables que otros?
 
-**Productos Populares**: ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
+**Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
-**Hora de Compra**: ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
+**Hora de Compra:** ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
 
 **Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
+
+**Precios de los alimentos:**¿Cuáles son los alimentos más caros?¿Y los más baratos?
+
+**Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
+
+**Gasto promedio:** ¿Cuál es el promedio de gasto por compra?
+
+**Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
