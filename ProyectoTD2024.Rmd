@@ -103,19 +103,23 @@ for (linea in ticket){
   }
   n <- n + 1
 }
-
+#Aquellas variables con un solo valor las repetimos para poder crear el dataframe
 vector_cod <- rep(cod, times = length(descripcion))
 vector_calle <- rep(calle, times = length(descripcion))
 vector_hora <- rep(hora, times = length(descripcion))
 vector_fecha <- rep(fecha, times = length(descripcion))
 vector_pago <- rep(pago, times = length(descripcion))
-df <- data.frame(Alimento = descripcion,Cantidad = cantidad, Precio = precio, hora = hora,
+df <- data.frame(Alimento = descripcion,Cantidad = cantidad, Precio = precio,
+                 hora = hora,
                  fecha = fecha, calle = calle, codigo = cod, Pago = pago)
+#Convertimos el precio a variable nuérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
+#El bucle también coge el tipo impósitivo, por lo que los eliminamos
 df <- subset(df, !grepl("^%", df$Alimento))
 return(df)
 }
+#Crgamos todos los tickets
 ticket1<-"data/20231218 Mercadona 60,47 Ôé¼.txt"
 ticket2<-"data/20231224 Mercadona 37,49 Ôé¼.txt"
 ticket3<-"data/20231226 Mercadona 25,83 Ôé¼.txt"
@@ -136,10 +140,7 @@ ticket17<-"data/20240316 Mercadona 51,42 €.txt"
 ticket18<-"data/20240318 Mercadona 16,59 €.txt"
 ticket19<-"data/20240320 Mercadona 12,11 €.txt"
 ticket20<-"data/20240307 Mercadona 39,45 €.txt"
-  
-  
-
-
+#Los guardamos en un data frame
 df_ticket1 <- conjunto_de_datos(ticket1)
 df_ticket2<- conjunto_de_datos(ticket2)
 df_ticket3 <- conjunto_de_datos(ticket3)
@@ -160,7 +161,6 @@ df_ticket17<- conjunto_de_datos(ticket17)
 df_ticket18<- conjunto_de_datos(ticket18)
 df_ticket19<- conjunto_de_datos(ticket19)
 df_ticket20<- conjunto_de_datos(ticket20)
-
 ```
 
 
