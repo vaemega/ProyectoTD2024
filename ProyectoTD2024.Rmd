@@ -10,7 +10,7 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introducción
+# 1 Introducción
 
 En la era actual, donde la digitalización y la sostenibilidad son de suma importancia, la implementación de tickets electrónicos por parte de un conocido supermercado representa un avance significativo. Este cambio no solo promueve la reducción del uso de papel, sino que también abre un nuevo horizonte de posibilidades en el análisis de datos de consumo. Como estudiantes del GCD, nos enfrentamos al desafío de desarrollar un programa que no solo simplifique la transición a lo digital, sino que también permita un análisis exhaustivo de los hábitos de compra.
 
@@ -18,16 +18,22 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python ‘TicketPDF2TXT.ipynb’, estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente. A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
 
+
 ```{r}
+#Cargamos las librerias necesarias.
 library(hms)
 library(readr)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+#Creamos una función que nos permita transformar el fichero txt a un dataframe
+#con las variables que nos serán útiles para responder a las preguntas
 conjunto_de_datos <- function(path){
-  ticket <- readLines(path)
+#Leemos todas las líneas del fichero
+ticket <- readLines(path)
+#Asignamos las variables 
 cantidad <- c()
 descripcion <- c()
-alimento <- c()
 precio <- c()
 lineas <- readLines(path)
 cantidad_lineas <- length(lineas)
@@ -35,26 +41,37 @@ m <- c("A", "B", "C", "D", "E", "F", "G", "H", "I",
                        "J", "K", "L", "M", "N", "O", "P", "Q", "R",
                        "S", "T", "U", "V", "W", "X", "Y", "Z")
 
-n <- 1
-s <- 0
 
+# n será el contador de la línea que se está procesando
+n <- 1
+# s es una variable que nos permitirá identificar los alimentos a peso
+s <- 0
+#Creamos un bucle for que vaya linea por línea
 for (linea in ticket){
+  #Comprobamos que la línea no esté vacía 
   if (!is.null(linea)){
+    #Convertimos la línea para que los acentos y Ñ no nos de problemas
     linea <- iconv(linea, "latin1", "ASCII", sub = "")
     linea <- gsub("Ñ", "N", linea)
-    
+    #En la linea 2 de todos los tickets siempre estará la calle
     if (n == 2){
       calle <- linea
-      
+      # En la linea 3 el código postal
     } else if (n == 3){
       cod <- linea
-      
+      #En la línea 5 la fecha 
     } else if (n == 5){
+      #Extraemos solo los 16 primeros caracteres y separamos la fecha de la hora
       linea_fech <- substr(linea,1,16)
       linea_fech1 <- strsplit(linea_fech," ")
       fecha <- linea_fech1[[1]][1]  
-      hora <- linea_fech1[[1]][2] 
+      hora <- linea_fech1[[1]][2]
+      #Buscamos la lineas con los patrones necesarios y paramos cuando leamos la
+      # cantidad de lineas totales - 7, ya que allí es donde ya no hay más
+      #alimentos
     } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) & n != cantidad_lineas - 7){
+      #Extraemos la cantidad y la añadimos a nuestro vector.Hacemos el mismo
+      #proceso para la descripción(el producto)
       cant <- as.numeric(regmatches(linea, regexec("\\d", linea))[[1]])
       cantidad <- c(cantidad,cant)
       
@@ -62,29 +79,26 @@ for (linea in ticket){
       descrip <- gsub("\\s*\\d+(,\\d+)?$", "", descrip)
       
       descripcion <- c(descripcion,descrip)
+      #Para los precios diferenciamos si se trata de un producto a precio o no
       linea <- strsplit(linea, "\\s+")[[1]]
       prec <- linea[length(linea)]
-      print(prec)
       prir <- substr(prec, 3, 3)
       if (prir %in% m){
         s <- 1
-        print("hola")
       } else {
+        #Si no es a peso guardamos el precio directamente
         s <- 0
         precio <- c(precio,prec)
       }
-    } else if (grepl("TARJETA BANCARIA", linea)){
-      metodo_pago <- regmatches(linea, regexec("TARJETA (DE )?PAGO", linea))[[1]]
-      s <- 0
     } else if (s == 1){
+      #Guardamo el precio de los productos a peso(es último número)
       elementos <- strsplit(linea, " ")[[1]]
       numero <- elementos[length(elementos)]
       precio <- c(precio,numero)
-      print(numero)
       s <- 0
+      #Extraemos el método de pago, siempre se encuentra en la misma posición
     } else if (n == cantidad_lineas - 5){
       pago <- sub(":.*", "", linea)
-      
     }
   }
   n <- n + 1
@@ -146,6 +160,13 @@ df_ticket17<- conjunto_de_datos(ticket17)
 df_ticket18<- conjunto_de_datos(ticket18)
 df_ticket19<- conjunto_de_datos(ticket19)
 df_ticket20<- conjunto_de_datos(ticket20)
+
+```
+
+
+
+```{r}
+
 ```
 
 # Preguntas
