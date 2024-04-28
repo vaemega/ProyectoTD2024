@@ -57,7 +57,7 @@ for (linea in ticket){
     linea <- iconv(linea, "latin1", "UTF-8", sub = "")
     #En la linea 2 de todos los tickets siempre estará la calle
     if (n == 2){
-      calle <- linea
+      Direccion <- linea
       # En la linea 3 el código postal
     } else if (n == 3){
       cod <- linea
@@ -66,8 +66,8 @@ for (linea in ticket){
       #Extraemos solo los 16 primeros caracteres y separamos la fecha de la hora
       linea_fech <- substr(linea,1,16)
       linea_fech1 <- strsplit(linea_fech," ")
-      fecha <- linea_fech1[[1]][1]  
-      hora <- linea_fech1[[1]][2]
+      FechaCompra <- linea_fech1[[1]][1]  
+      HoraCompra <- linea_fech1[[1]][2]
       #Buscamos la líneas con los patrones necesarios y paramos cuando leamos la
       # cantidad de lineas totales - 7, ya que allí es donde ya no hay más
       #alimentos
@@ -101,28 +101,28 @@ for (linea in ticket){
       s <- 0
       #Extraemos el método de pago, siempre se encuentra en la misma posición
     } else if (n == cantidad_lineas - 5){
-      pago <- sub(":.*", "", linea)
+      MetodoPago <- sub(":.*", "", linea)
     }
   }
   n <- n + 1
 }
 #Aquellas variables con un solo valor las repetimos para poder crear el dataframe
 vector_cod <- rep(cod, times = length(descripcion))
-vector_calle <- rep(calle, times = length(descripcion))
-vector_hora <- rep(hora, times = length(descripcion))
-vector_fecha <- rep(fecha, times = length(descripcion))
-vector_pago <- rep(pago, times = length(descripcion))
-df <- data.frame(Alimento = descripcion,Cantidad = cantidad, Precio = precio,
-                 hora = hora,
-                 fecha = fecha, calle = calle, codigo = cod, Pago = pago)
+vector_calle <- rep(Direccion, times = length(descripcion))
+vector_hora <- rep(HoraCompra, times = length(descripcion))
+vector_fecha <- rep(FechaCompra, times = length(descripcion))
+vector_pago <- rep(MetodoPago, times = length(descripcion))
+df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio,
+                 HoraCompra = HoraCompra,
+                 FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago)
 #Convertimos el precio a variable numérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
 #El bucle también coge el tipo impositivo, por lo que los eliminamos
 df <- subset(df, !grepl("^%", df$Alimento))
 df <- df %>%
-  mutate(Codigo_Postal = sub(" .*", "", codigo), # Extrae el código postal
-         Ciudad = sub("^[0-9]+ ", "", codigo))   # Extrae la ciudad
+  mutate(CodigoPostal = sub(" .*", "", codigo), #Extraemos el código postal
+         Ciudad = sub("^[0-9]+ ", "", codigo))   #Extraemos la ciudad
 # Eliminamos la variable 'codigo' del dataframe
 df <- df %>%
   select(-codigo)
@@ -148,7 +148,7 @@ library(kableExtra)
 # Crear un dataframe
 tabla <- data.frame(
   Variables = c("Producto",
-                "Canitidad",
+                "Cantidad",
                 "Precio",
                 "Hora",
                 "Fecha",
