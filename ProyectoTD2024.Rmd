@@ -120,6 +120,12 @@ df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
 #El bucle también coge el tipo impositivo, por lo que los eliminamos
 df <- subset(df, !grepl("^%", df$Alimento))
+df <- df %>%
+  mutate(Codigo_Postal = sub(" .*", "", codigo), # Extrae el código postal
+         Ciudad = sub("^[0-9]+ ", "", codigo))   # Extrae la ciudad
+# Eliminamos la variable 'codigo' del dataframe
+df <- df %>%
+  select(-codigo)
 return(df)
 }
 #Cargamos todos los tickets
