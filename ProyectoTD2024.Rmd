@@ -54,8 +54,7 @@ for (linea in ticket){
   #Comprobamos que la línea no esté vacía 
   if (!is.null(linea)){
     #Convertimos la línea para que los acentos y Ñ no nos de problemas
-    linea <- iconv(linea, "latin1", "ASCII", sub = "")
-    linea <- gsub("Ñ", "N", linea)
+    linea <- iconv(linea, "latin1", "UTF-8", sub = "")
     #En la linea 2 de todos los tickets siempre estará la calle
     if (n == 2){
       calle <- linea
@@ -69,7 +68,7 @@ for (linea in ticket){
       linea_fech1 <- strsplit(linea_fech," ")
       fecha <- linea_fech1[[1]][1]  
       hora <- linea_fech1[[1]][2]
-      #Buscamos la lineas con los patrones necesarios y paramos cuando leamos la
+      #Buscamos la líneas con los patrones necesarios y paramos cuando leamos la
       # cantidad de lineas totales - 7, ya que allí es donde ya no hay más
       #alimentos
     } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) &
@@ -83,7 +82,7 @@ for (linea in ticket){
       descrip <- gsub("\\s*\\d+(,\\d+)?$", "", descrip)
       
       descripcion <- c(descripcion,descrip)
-      #Para los precios diferenciamos si se trata de un producto a precio o no
+      #Para los precios diferenciamos si se trata de un producto a granel o no
       linea <- strsplit(linea, "\\s+")[[1]]
       prec <- linea[length(linea)]
       prir <- substr(prec, 3, 3)
@@ -95,7 +94,7 @@ for (linea in ticket){
         precio <- c(precio,prec)
       }
     } else if (s == 1){
-      #Guardamo el precio de los productos a peso(es último número)
+      #Guardamos el precio de los productos a peso (corresponde al último número)
       elementos <- strsplit(linea, " ")[[1]]
       numero <- elementos[length(elementos)]
       precio <- c(precio,numero)
@@ -116,55 +115,21 @@ vector_pago <- rep(pago, times = length(descripcion))
 df <- data.frame(Alimento = descripcion,Cantidad = cantidad, Precio = precio,
                  hora = hora,
                  fecha = fecha, calle = calle, codigo = cod, Pago = pago)
-#Convertimos el precio a variable nuérica
+#Convertimos el precio a variable numérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
-#El bucle también coge el tipo impósitivo, por lo que los eliminamos
+#El bucle también coge el tipo impositivo, por lo que los eliminamos
 df <- subset(df, !grepl("^%", df$Alimento))
 return(df)
 }
-#Crgamos todos los tickets
-ticket1<-"data/20231218 Mercadona 60,47 Ôé¼.txt"
-ticket2<-"data/20231224 Mercadona 37,49 Ôé¼.txt"
-ticket3<-"data/20231226 Mercadona 25,83 Ôé¼.txt"
-ticket4<-"data/20231230 Mercadona 66,30 Ôé¼.txt"
-ticket5<-"data/20240102 Mercadona 70,04 Ôé¼.txt"
-ticket6<-"data/20240108 Mercadona 83,73 Ôé¼.txt"
-ticket7<-"data/20240109 Mercadona 7,35 Ôé¼.txt"
-ticket8<-"data/20240111 Mercadona 41,20 Ôé¼.txt"
-ticket9<-"data/20240115 Mercadona 117,41 Ôé¼.txt"
-ticket10<-"data/20240123 Mercadona 44,13 Ôé¼.txt"
-ticket11<-"data/20240127 Mercadona 108,33 Ôé¼.txt"
-ticket12<-"data/20240131 Mercadona 16,82 Ôé¼.txt"
-ticket13<-"data/20240326 Mercadona 13,03 Ôé¼.txt"
-ticket14<-"data/20240309 Mercadona 96,87 Ôé¼.txt"
-ticket15<-"data/20240213 Mercadona 16,73 Ôé¼.txt"
-ticket16<-"data/20240313 Mercadona 4,50 Ôé¼.txt"
-ticket17<-"data/20240316 Mercadona 51,42 Ôé¼.txt"
-ticket18<-"data/20240318 Mercadona 16,59 Ôé¼.txt"
-ticket19<-"data/20240320 Mercadona 12,11 Ôé¼.txt"
-ticket20<-"data/20240307 Mercadona 39,45 Ôé¼.txt"
-#Los guardamos en un data frame
-df_ticket1 <- conjunto_de_datos(ticket1)
-df_ticket2<- conjunto_de_datos(ticket2)
-df_ticket3 <- conjunto_de_datos(ticket3)
-df_ticket4 <- conjunto_de_datos(ticket4)
-df_ticket5 <- conjunto_de_datos(ticket5)
-df_ticket6 <- conjunto_de_datos(ticket6)
-df_ticket7 <- conjunto_de_datos(ticket7)
-df_ticket8 <- conjunto_de_datos(ticket8)
-df_ticket9 <- conjunto_de_datos(ticket9)
-df_ticket10 <- conjunto_de_datos(ticket10)
-df_ticket11<- conjunto_de_datos(ticket11)
-df_ticket12<- conjunto_de_datos(ticket12)
-df_ticket13<- conjunto_de_datos(ticket13)
-df_ticket14<- conjunto_de_datos(ticket14)
-df_ticket15<- conjunto_de_datos(ticket15)
-df_ticket16<- conjunto_de_datos(ticket16)
-df_ticket17<- conjunto_de_datos(ticket17)
-df_ticket18<- conjunto_de_datos(ticket18)
-df_ticket19<- conjunto_de_datos(ticket19)
-df_ticket20<- conjunto_de_datos(ticket20)
+#Cargamos todos los tickets
+path <- "data/"
+
+# Obtenemos una lista de todos los archivos .txt en la carpeta
+files <- list.files(path, pattern = "[.]txt$", full.names = TRUE)
+
+# Procesamos todos los archivos y combinamos los resultados
+observaciones <- bind_rows(lapply(files, conjunto_de_datos), .id = "ticket_id")
 ```
 
 
