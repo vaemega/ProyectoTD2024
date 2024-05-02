@@ -21,7 +21,6 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python ‘TicketPDF2TXT.ipynb’, estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente. A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
 
-
 ```{r}
 #Cargamos las librerias necesarias.
 library(hms)
@@ -112,9 +111,7 @@ vector_calle <- rep(Direccion, times = length(descripcion))
 vector_hora <- rep(HoraCompra, times = length(descripcion))
 vector_fecha <- rep(FechaCompra, times = length(descripcion))
 vector_pago <- rep(MetodoPago, times = length(descripcion))
-df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio,
-                 HoraCompra = HoraCompra,
-                 FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago)
+df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio, HoraCompra = HoraCompra, FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago)
 #Convertimos el precio a variable numérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
@@ -198,6 +195,8 @@ knitr::kable(tabla, booktabs = TRUE)
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
 **Hora de Compra:** ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
+
+**Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?
 
 **Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
 
