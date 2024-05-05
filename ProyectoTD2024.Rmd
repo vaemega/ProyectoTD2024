@@ -133,6 +133,14 @@ files <- list.files(path, pattern = "[.]txt$", full.names = TRUE)
 
 # Procesamos todos los archivos y combinamos los resultados
 observaciones <- bind_rows(lapply(files, conjunto_de_datos), .id = "ticket_id")
+
+#Creamos la variable Parking para ver qué personas han usado el aparcamiento del supermercado
+
+ids_con_parking <- unique(observaciones$ticket_id[observaciones$Alimento == "PARKING"])
+
+observaciones <- observaciones %>% mutate(Parking = if_else(ticket_id %in% ids_con_parking, "SI", NA_character_))
+
+observaciones <- observaciones %>% filter(Alimento != "PARKING")
 ```
 
 
