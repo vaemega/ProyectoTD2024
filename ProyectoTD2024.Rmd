@@ -136,6 +136,7 @@ observaciones <- bind_rows(lapply(files, conjunto_de_datos), .id = "ticket_id")
 
 #Creamos la variable Parking para ver qué personas han usado el aparcamiento del supermercado
 
+
 ids_con_parking <- unique(observaciones$ticket_id[observaciones$Alimento == "PARKING"])
 
 observaciones <- observaciones %>% mutate(Parking = if_else(ticket_id %in% ids_con_parking, "SI", NA_character_))
@@ -201,6 +202,11 @@ knitr::kable(tabla, booktabs = TRUE)
 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio? ¿Existen productos con precios más estables que otros?
 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
+```{r}
+#productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% #arrange(desc(Cantidad_Total))
+
+```
+
 
 **Hora de Compra:** ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
 
