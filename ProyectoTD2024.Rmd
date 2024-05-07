@@ -128,7 +128,8 @@ return(df)
 #Cargamos todos los tickets
 path <- "data/"
 
-# Obtenemos una lista de todos los archivos .txt en la carpeta
+
+#Obtenemos una lista de todos los archivos .txt en la carpeta
 files <- list.files(path, pattern = "[.]txt$", full.names = TRUE)
 
 # Procesamos todos los archivos y combinamos los resultados
@@ -142,6 +143,7 @@ ids_con_parking <- unique(observaciones$ticket_id[observaciones$Alimento == "PAR
 observaciones <- observaciones %>% mutate(Parking = if_else(ticket_id %in% ids_con_parking, "SI", NA_character_))
 
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
+
 ```
 
 
@@ -203,7 +205,14 @@ knitr::kable(tabla, booktabs = TRUE)
 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 ```{r}
-#productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% #arrange(desc(Cantidad_Total))
+#observamos los productos más comprados en general
+#productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
+#la frecuencia 
+#productos_frecuentes <- observaciones %>%
+  #  group_by(Alimento) %>%
+   # summarise(Frecuencia_Compra = n()) %>%
+   # arrange(desc(Frecuencia_Compra))
+
 
 ```
 
