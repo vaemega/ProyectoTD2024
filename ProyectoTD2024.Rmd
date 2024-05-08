@@ -239,10 +239,21 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 **Gasto promedio:** ¿Cuál es el promedio de gasto por compra?
 
 ```{r}
-str(observaciones)
 num_tickets <- length(unique(observaciones[,"ticket_id"]))
 media_compra <- sum(observaciones[,"Precio"]) / num_tickets
 media_compra
+data_compra <- observaciones[,c('ticket_id','Precio')]
+data_compra <- data_compra %>%
+  group_by(ticket_id) %>%
+  mutate(Precio = sum(Precio))
+data_compra<-unique(data_compra)
+
+data_compra %>%
+  ggplot(aes(x =reorder(ticket_id,-Precio),y = Precio,group = ticket_id)) +
+  geom_point(colour = "red") +
+  labs(title = "Precio de compra de cada ticket",
+       x = "Identificador del ticket",
+       y = "Precio de la compra")
 ```
 
 
