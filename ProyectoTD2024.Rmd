@@ -33,6 +33,9 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```{r echo=TRUE, warning=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
 #con las variables que nos serán útiles para responder a las preguntas
+#Inicializamos las variables con valores por defecto
+HoraEntrada <- NA
+HoraSalida <- NA
 conjunto_de_datos <- function(path){
 #Leemos todas las líneas del fichero
 ticket <- readLines(path)
@@ -106,8 +109,8 @@ for (linea in ticket){
       MetodoPago <- sub(":.*", "", linea)
     } else if (grepl("ENTRADA", linea)){
       partes <- unlist(strsplit(linea, "\\s+"))
-      hora_entrada <- partes[2]
-      hora_salida <- partes[4]
+      HoraEntrada <- partes[2]
+      HoraSalida <- partes[4]
     }
   }
   n <- n + 1
@@ -118,7 +121,9 @@ vector_calle <- rep(Direccion, times = length(descripcion))
 vector_hora <- rep(HoraCompra, times = length(descripcion))
 vector_fecha <- rep(FechaCompra, times = length(descripcion))
 vector_pago <- rep(MetodoPago, times = length(descripcion))
-df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio, HoraCompra = HoraCompra, FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago)
+vector_entrada <- rep(HoraEntrada, times = length(descripcion))
+vector_salida <- rep(HoraSalida, times = length(descripcion))
+df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio, HoraCompra = HoraCompra, FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago, HoraEntrada = vector_entrada, HoraSalida = vector_salida)
 #Convertimos el precio a variable numérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
