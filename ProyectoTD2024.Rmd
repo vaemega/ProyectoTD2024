@@ -278,7 +278,8 @@ knitr::kable(tabla, booktabs = TRUE,caption = 'Variables empleadas')
 ```{r}
 #Primero compruebo si la dirección es un carácter:
 class(observaciones$Ciudad)
-
+ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad)) + (labs(x = "Ciudades", y = "Compras",
+   title = "Distribución geográfica de las compras"))
 
 ```
 
