@@ -149,6 +149,7 @@ observaciones <- observaciones %>%
   mutate(Parking = if_else(ticket_id %in% ids_con_parking, "SI", NA_character_))
 
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
+observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)  
 
 ```
 
@@ -236,6 +237,14 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
 
 **Gasto promedio:** ¿Cuál es el promedio de gasto por compra?
+
+```{r}
+str(observaciones)
+num_tickets <- length(unique(observaciones[,"ticket_id"]))
+media_compra <- sum(observaciones[,"Precio"]) / num_tickets
+media_compra
+```
+
 
 **Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
 
