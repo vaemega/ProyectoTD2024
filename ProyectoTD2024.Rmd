@@ -30,7 +30,7 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```
 
 
-```{r warning=FALSE, include=FALSE}
+```{r echo=TRUE, warning=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
 #con las variables que nos serán útiles para responder a las preguntas
 conjunto_de_datos <- function(path){
@@ -104,6 +104,10 @@ for (linea in ticket){
       #Extraemos el método de pago, siempre se encuentra en la misma posición
     } else if (n == cantidad_lineas - 5){
       MetodoPago <- sub(":.*", "", linea)
+    } else if (grepl("ENTRADA", linea)){
+      partes <- unlist(strsplit(linea, "\\s+"))
+      hora_entrada <- partes[2]
+      hora_salida <- partes[4]
     }
   }
   n <- n + 1
