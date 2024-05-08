@@ -238,10 +238,9 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 
 **Gasto promedio:** ¿Cuál es el promedio de gasto por compra?
 
-```{r}
+```{r echo=FALSE}
 num_tickets <- length(unique(observaciones[,"ticket_id"]))
 media_compra <- sum(observaciones[,"Precio"]) / num_tickets
-media_compra
 data_compra <- observaciones[,c('ticket_id','Precio')]
 data_compra <- data_compra %>%
   group_by(ticket_id) %>%
@@ -251,13 +250,25 @@ data_compra<-unique(data_compra)
 data_compra %>%
   ggplot(aes(x =reorder(ticket_id,-Precio),y = Precio,group = ticket_id)) +
   geom_point(colour = "red") +
+  geom_hline(yintercept= media_compra,
+             color="black",
+             lwd=1,
+             linetype = "dashed") +
   labs(title = "Precio de compra de cada ticket",
        x = "Identificador del ticket",
-       y = "Precio de la compra")
+       y = "Precio de la compra") +
+  annotate("text", x= 18, y=4+media_compra, label=paste0('Media compras'))
 ```
 
 
 **Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
+
+```{r echo=FALSE}
+precio_cantidad <- observaciones[,c("Alimento","Cantidad","Precio")]
+precio_cantidad <- precio_cantidad %>% mutate(PrecioUnidad = Precio / Cantidad)
+cor(precio_cantidad[,c("Cantidad","PrecioUnidad")], method = "spearman")
+```
+
 
 
 
