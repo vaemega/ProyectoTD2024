@@ -1,5 +1,6 @@
 ---
 title: "ProyectoTD2024"
+subtitle: Tratamiento de Datos. Grado en Ciencia de Datos- UV
 author: Sergio Taengua Díaz, Valentina Elisa Medina Gallazzi, Narcis Casian Romega,
   Sheida Zolfaghari
 date: "`r Sys.Date()`"
@@ -21,13 +22,15 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python ‘TicketPDF2TXT.ipynb’, estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente. A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
 
-```{r}
+```{r include=FALSE}
 #Cargamos las librerias necesarias.
-library(hms)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+if (!require("pacman")) install.packages("pacman")
+library(pacman)
+p_load(hms,readr,dplyr,tidyr,ggplot2)
+```
+
+
+```{r warning=FALSE, include=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
 #con las variables que nos serán útiles para responder a las preguntas
 conjunto_de_datos <- function(path){
@@ -148,7 +151,9 @@ observaciones <- observaciones %>%
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
 
 ```
-```{r}
+
+
+```{r include=FALSE}
 #Cambiamos los Na de los parking por 'NO'
 observaciones <- observaciones %>%
   mutate(Parking =ifelse(is.na(Parking),"NO",Parking))
@@ -158,7 +163,7 @@ observaciones <- observaciones %>%
 
 
 
-```{r, echo=FALSE}
+```{r include=FALSE}
 
 library(bookdown)
 library(knitr)
@@ -191,7 +196,6 @@ tabla <- data.frame(
               "46023 VALENCIA",
               "TARJ. BANCARIA")
 )
-
 ```
 
 
@@ -202,19 +206,13 @@ Una vez que hemos garantizado que nuestros datos se encuentran en la estructura 
 
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
 
-Para responder a las siguientes preguntas usaremos tan solo las variables de interés.Las podemos observar en 
-esta tabla
 
-Tabla 1. Variables que emplearemos
-```{r, echo=FALSE}
-knitr::kable(tabla, booktabs = TRUE)
-```
 
 
 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio? ¿Existen productos con precios más estables que otros?
 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
-```{r}
+```{r include=FALSE}
 #observamos los productos más comprados en general
 #productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
 #la frecuencia 
@@ -240,3 +238,15 @@ knitr::kable(tabla, booktabs = TRUE)
 **Gasto promedio:** ¿Cuál es el promedio de gasto por compra?
 
 **Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
+
+
+
+Para responder a estas preguntas usaremos tan solo las variables de interés.Las podemos observar en 
+esta tabla
+
+```{r Table 1, echo=FALSE, fig.align='center', fig.cap='Figura 1: Variables empleadas', out.width='60%'}
+knitr::kable(tabla, booktabs = TRUE,caption = 'Variables empleadas')
+```
+
+
+En la figura \@ref(fig:Table 1).
