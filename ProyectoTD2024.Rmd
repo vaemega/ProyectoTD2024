@@ -231,7 +231,18 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?
 
 ```{r}
+#Gráfico para observar cuánta gente usa el aparcamiento, contando un único uso por ticket_id
 
+uso_parking_total <- observaciones %>%
+  group_by(Parking) %>%
+  summarise(Count = n_distinct(ticket_id))
+
+ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Uso del Aparcamiento del Supermercado",
+       x = "Aparcamiento Utilizado",
+       y = "Cantidad de Tickets") +
+  theme_minimal()
 ```
 
 **Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
