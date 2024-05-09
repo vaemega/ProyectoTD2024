@@ -166,7 +166,6 @@ observaciones <- observaciones %>%
 
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
 observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)  
-
 ```
 
 ```{r include=FALSE}
@@ -243,6 +242,34 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
        x = "Aparcamiento Utilizado",
        y = "Cantidad de Tickets") +
   theme_minimal()
+```
+
+```{r}
+#Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
+observaciones <- observaciones %>%
+  filter(!is.na(HoraEntrada)) %>%
+  mutate(HoraEntrada = as.POSIXct(HoraEntrada, format = "%H:%M"))
+
+#Creamos un factor con los intervalos horarios
+observaciones$Intervalo <- cut(observaciones$HoraEntrada,
+                               breaks = as.POSIXct(c("09:00", "12:00", "15:00", "18:00", "21:30"), format = "%H:%M"),
+                               labels = c("9:00-12:00", "12:00-15:00", "15:00-18:00", "18:00-21:30"),
+                               include.lowest = TRUE)
+
+#Contamos cada ticket una sola vez
+observaciones_unicas <- observaciones %>%
+  group_by(ticket_id, Intervalo) %>%
+  summarise(n = n_distinct(ticket_id))
+
+#Creamos el gráfico
+ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
+  geom_histogram(stat = "identity") +
+  xlab("Intervalo Horario") +
+  ylab("Cantidad de Tickets") +
+  ggtitle("Hora de Entrada al Parking") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
 ```
 
 **Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
