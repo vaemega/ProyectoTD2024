@@ -35,6 +35,7 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 #Inicializamos las variables con valores por defecto
 HoraEntrada <- NA
 HoraSalida <- NA
+PrecioParking <- NA
 conjunto_de_datos <- function(path){
 #Leemos todas las líneas del fichero
 ticket <- readLines(path)
@@ -42,6 +43,7 @@ ticket <- readLines(path)
 cantidad <- c()
 descripcion <- c()
 precio <- c()
+PrecioParking <- NA
 lineas <- readLines(path)
 cantidad_lineas <- length(lineas)
 m <- c("A", "B", "C", "D", "E", "F", "G", "H", "I",
@@ -75,6 +77,10 @@ for (linea in ticket){
       #Buscamos la líneas con los patrones necesarios y paramos cuando leamos la
       # cantidad de lineas totales - 7, ya que allí es donde ya no hay más
       #alimentos
+    } else if (grepl("1PARKING", linea)){
+        # Extraemos el precio del parking
+        elementos <- strsplit(linea, " ")[[1]]
+        PrecioParking <- as.numeric(gsub(",", ".", elementos[length(elementos)]))
     } else if (grepl("^\\d", linea) & !grepl("kg|€|21%|10%", linea) &
                n != cantidad_lineas - 7){
       #Extraemos la cantidad y la añadimos a nuestro vector.Hacemos el mismo
@@ -122,7 +128,8 @@ vector_fecha <- rep(FechaCompra, times = length(descripcion))
 vector_pago <- rep(MetodoPago, times = length(descripcion))
 vector_entrada <- rep(HoraEntrada, times = length(descripcion))
 vector_salida <- rep(HoraSalida, times = length(descripcion))
-df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio, HoraCompra = HoraCompra, FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago, HoraEntrada = vector_entrada, HoraSalida = vector_salida)
+vector_precio_parking <- rep(PrecioParking, times = length(descripcion))
+df <- data.frame(Alimento = descripcion, Cantidad = cantidad, Precio = precio, HoraCompra = HoraCompra, FechaCompra = FechaCompra, Direccion = Direccion, codigo = cod, MetodoPago = MetodoPago, HoraEntrada = vector_entrada, HoraSalida = vector_salida, PrecioParking = vector_precio_parking)
 #Convertimos el precio a variable numérica
 df$Precio <- as.numeric(gsub(",", ".", df$Precio))
 df$Precio <- as.numeric(df$Precio)
@@ -241,6 +248,8 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
        y = "Cantidad de Tickets") +
   theme_minimal()
 ```
+
+
 
 **Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
 
