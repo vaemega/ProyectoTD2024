@@ -329,7 +329,8 @@ ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad
 
 **Hora más frecuente: ** ¿Cuál es la hora más común de compra?
 ```{r}
-
+#Primero observo de que tipo es la variable "HoraCompra":
+class(observaciones$HoraCompra)
 ```
 
 En la figura \@ref(fig:Table 1).
