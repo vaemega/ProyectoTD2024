@@ -244,7 +244,7 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
   theme_minimal()
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 #Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
 observaciones <- observaciones %>%
   filter(!is.na(HoraEntrada)) %>%
@@ -324,7 +324,6 @@ class(observaciones$Ciudad)
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
 ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad)) + (labs(x = "Ciudades", y = "Compras",
    title = "Distribución geográfica de las compras"))
-
 ```
 
 
