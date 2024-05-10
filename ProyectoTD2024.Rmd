@@ -331,6 +331,7 @@ ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad
 ```{r}
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
+ggplot(data = observaciones) +  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) 
 ```
 
 En la figura \@ref(fig:Table 1).
