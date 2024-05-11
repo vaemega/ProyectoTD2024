@@ -35,16 +35,25 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 
 # 1.2. Características generales de los datos
 
-Podemos hacernos a la idea de las características generales de los datos utilizando funciones como 
-glimpse, head, str, dim...
+Podemos hacernos a la idea de las características generales de los datos utilizando funciones como glimpse, head, str, dim, is.na...
+
+En resumen, nuestro conjunto de datos está formado por 315 observaciones y 15 variables.
 
 ```{r echo=TRUE, warning=FALSE}
-glimpse(data)
-head(data)
-dim(data)
-str(data)
+glimpse(observaciones)
+head(observaciones)
+dim(observaciones)
+str(observaciones)
+is.na(observaciones)
 ```
 
+Tabla 1.Variables de interés para el estudio de los datos.
+
+| Variables      | Descripción |
+|----------------|-------------|
+| Identificacion |             |
+| Age            |             |
+|                |             |
 
 ```{r echo=TRUE, warning=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
