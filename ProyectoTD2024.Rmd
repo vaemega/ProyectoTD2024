@@ -38,7 +38,7 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 Podemos hacernos a la idea de las características generales de los datos utilizando funciones como 
 glimpse, head, str, dim...
 
-```{r}
+```{r echo=TRUE, warning=FALSE}
 glimpse(data)
 head(data)
 dim(data)
@@ -335,12 +335,13 @@ knitr::kable(tabla, booktabs = TRUE,caption = 'Variables empleadas')
 
 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
 
-```{r}
+```{r echo=TRUE, warning=FALSE}
 #Primero compruebo si la dirección es un carácter:
 class(observaciones$Ciudad)
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
 ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad)) + (labs(x = "Ciudades", y = "Compras",
-   title = "Distribución geográfica de las compras"))
+   title = "Distribución geográfica de las compras"))  +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
