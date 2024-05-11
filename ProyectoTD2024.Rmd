@@ -14,13 +14,17 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# 1 Introducción
+# 1. Introducción
 
 En la era actual, donde la digitalización y la sostenibilidad son de suma importancia, la implementación de tickets electrónicos por parte de un conocido supermercado representa un avance significativo. Este cambio no solo promueve la reducción del uso de papel, sino que también abre un nuevo horizonte de posibilidades en el análisis de datos de consumo. Como estudiantes del GCD, nos enfrentamos al desafío de desarrollar un programa que no solo simplifique la transición a lo digital, sino que también permita un análisis exhaustivo de los hábitos de compra.
 
 Nuestro objetivo es crear una herramienta que analice los tickets electrónicos para obtener información valiosa sobre la evolución de precios, las compras más habituales, los productos más consumidos, el supermercado preferido por los clientes y la hora de compra, entre otros aspectos. Este análisis no solo beneficiará a los consumidores, quieciñnes podrán hacer un seguimiento de sus gastos y hábitos de consumo, sino que también proporcionará al supermercado datos cruciales para mejorar su oferta y estrategias de marketing.
 
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python 'TicketPDF2TXT.ipynb', estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente. A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
+
+# 1.1. Carga de librerías y datos necesarios para el análisis
+
+Primeramente, se cargan todas las librerias necesarias para poder analizar correctamente nuestro conjunto de datos.
 
 ```{r include=FALSE}
 #Cargamos las librerias necesarias.
@@ -327,12 +331,16 @@ ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad
 
 ```
 
-**Hora más frecuente: ** ¿Cuál es la hora más común de compra?
+**Hora más frecuente:** ¿Cuál es la hora más común de compra?
+
 ```{r}
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
+
 ggplot(data = observaciones) +  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) + (labs(x = "Hora de compra", y = "Compras",
    title = "Distribución horaria compras"))
+
+
 ```
 
 En la figura \@ref(fig:Table 1).
