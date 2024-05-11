@@ -311,8 +311,6 @@ ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
 
 ```
 
-**Método de Pago:** ¿Qué método de pago es el más popular en los clientes? ¿Los clientes que utilizan ciertos métodos de pago tienden a gastar más o menos que aquellos que utilizan otros métodos?
-
 **Precios de los alimentos:**¿Cuáles son los alimentos más caros?¿Y los más baratos?
 
 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
