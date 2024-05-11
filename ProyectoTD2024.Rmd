@@ -264,10 +264,18 @@ productos_frecuentes <- observaciones %>%
     group_by(Alimento) %>%
     summarise(Frecuencia_Compra = n()) %>%
     arrange(desc(Frecuencia_Compra))
+#extraemos los primeros 5 productos populares que se han comprado con sus frecuencias
+top_5_frecuentes <- productos_frecuentes %>%
+    head(n = 5)
+
 #Creamos el gráfico para representar los productos populares 
 ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total)) +
     geom_bar(stat = "identity") +
     labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")
+
+
+ 
+
  
 
 
