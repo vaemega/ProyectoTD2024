@@ -33,6 +33,19 @@ library(pacman)
 p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```
 
+# 1.2. Características generales de los datos
+
+Podemos hacernos a la idea de las características generales de los datos utilizando funciones como 
+glimpse, head, str, dim...
+
+```{r}
+glimpse(data)
+head(data)
+dim(data)
+str(data)
+```
+
+
 ```{r echo=TRUE, warning=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
 #con las variables que nos serán útiles para responder a las preguntas
