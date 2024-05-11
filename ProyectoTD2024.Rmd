@@ -45,15 +45,28 @@ head(observaciones)
 dim(observaciones)
 str(observaciones)
 is.na(observaciones)
+colnames(observaciones)
 ```
 
-Tabla 1.Variables de interés para el estudio de los datos.
+**Tabla 1.Variables de interés para el estudio de los datos.**
 
-| Variables      | Descripción |
-|----------------|-------------|
-| Identificacion |             |
-| Age            |             |
-|                |             |
+| Variables     | Descripción                                                   |
+|-------------------------------|------------------------------------|
+| tikcet_id     | Identificador del ticket                                      |
+| Alimento      | Nombre del alimento                                           |
+| Cantidad      | Cantidad comprada de x alimento                               |
+| Precio        | Precio del alimento                                           |
+| HoraCompra    | Hora de la compra                                             |
+| FechaCompra   | Fecha compra, formato: DD/MM/YYYY                             |
+| Direccion     | Dirección del supermercado donde se ha realizado la compra    |
+| MetodoPago    | Método de pago de la compra                                   |
+| HoraEntrada   | Hora de entrada (solo aparecerá si tiene parking)             |
+| HoraSalida    | Hora de salida (solo aparecerá si tiene parking)              |
+| PrecioParking | Precio parking                                                |
+| CodigoPostal  | Codigo postal de la ciudad donde está ubicado el supermercado |
+| Parking       | Si durante la compra ha utilizado el parking                  |
+| Intervalo     | Intervalo de tiempo de uso del parking                        |
+| Ciudad        | Ciudad en la que se encuentra el supermercado                 |
 
 ```{r echo=TRUE, warning=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
