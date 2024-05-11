@@ -51,7 +51,7 @@ colnames(observaciones)
 **Tabla 1.Variables de interés para el estudio de los datos.**
 
 | Variables     | Descripción                                                   |
-|-------------------------------|------------------------------------|
+|---------------------------------|---------------------------------------|
 | tikcet_id     | Identificador del ticket                                      |
 | Alimento      | Nombre del alimento                                           |
 | Cantidad      | Cantidad comprada de x alimento                               |
@@ -371,8 +371,13 @@ ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 
-ggplot(data = observaciones) +  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) + (labs(x = "Hora de compra", y = "Compras",
-   title = "Distribución horaria compras"))
+# Extraemos solo la hora de la variable "HoraCompra":
+observaciones$HoraCompra <- substring(observaciones$HoraCompra, 1, 2)
+
+# Creamos el gráfico con las horas agrupadas:
+ggplot(data = observaciones) +  
+  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) +
+  labs(x = "Hora de compra", y = "Compras", title = "Distribución horaria de compras")
 
 
 ```
