@@ -264,8 +264,6 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 
 ```
 
-**Hora de Compra:** ¿Existe una hora del día más popular para realizar compras? ¿Cómo varía el comportamiento de compra a lo largo del día?
-
 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?
 
 ```{r}
@@ -381,5 +379,18 @@ ggplot(data = observaciones) +
 
 
 ```
+
+**Figura 5.Diagrama de barras para la variable HoraCompra.**
+
+Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 13.
+Esta información puede ser útil para:
+
+-Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente. 
+
+-Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos. 
+
+-Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
+
+
 
 En la figura \@ref(fig:Table 1).
