@@ -287,6 +287,20 @@ ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra)) +
 
 
 ```
+**Figura 2. Gráfico de barras para los Productos populares.**
+
+El eje horizontal (X) muestra los nombres de los productos ("Alimento").
+El eje vertical (Y) representa la cantidad total ("Cantidad_Total") comprada para cada producto a lo largo de todos los tickets de compra analizados.
+Las barras del gráfico se extienden hacia arriba, siendo su altura proporcional a la cantidad total comprada de cada producto.
+
+En base a este gráfico, podemos identificar visualmente cuáles son los productos con mayor volumen de compra total. Ésta información es útil para conocer qué productos son los más demandados en términos de la cantidad absoluta comprada por los clientes. 
+
+
+
+
+
+
+
 
 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?
 
@@ -399,7 +413,7 @@ Podemos observar en el gráfico de barras que la ciudad con más ventas es Valen
 
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
-```{r setup, include=FALSE}
+```{r setup, include=true}
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 
