@@ -253,18 +253,18 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
 ```{r include=true}
-#observamos los productos más comprados en general
+#Observamos los productos más comprados en general
 productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
-# extraemos los primeros 5 productos populares que se han comprado
+#Extraemos los primeros 5 productos populares que se han comprado
 top_5_productos <- productos_populares %>%
     head(n = 5)
 
-#la frecuencia 
+#La frecuencia 
 productos_frecuentes <- observaciones %>%
     group_by(Alimento) %>%
     summarise(Frecuencia_Compra = n()) %>%
     arrange(desc(Frecuencia_Compra))
-#extraemos los primeros 5 productos populares que se han comprado con sus frecuencias
+#Extraemos los primeros 5 productos populares que se han comprado con sus frecuencias
 top_5_frecuentes <- productos_frecuentes %>%
     head(n = 5)
 
@@ -273,8 +273,14 @@ ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total)) +
     geom_bar(stat = "identity") +
     labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")
 
+#Creamos el gráfico para representar los productos populares con las frecuencias 
 
- 
+ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra)) +
+  geom_bar(stat = "identity") + 
+  labs(title = "los 5 productos más comprados ",
+       x = "Productos",
+       y = "Frecuencia") +  
+  theme_classic()  
 
  
 
