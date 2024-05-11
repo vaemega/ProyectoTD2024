@@ -363,9 +363,19 @@ ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad
 
 ```
 
+**Figura 4. Diagrama de barras para la variable Ciudad.**
+
+Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para:
+
+-Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas. Esta información puede ser útil al considerar la apertura de nuevas tiendas o la reubicación de tiendas existentes para maximizar la conveniencia para los clientes.
+
+-Optimización de inventario: Al comprender qué productos son más populares en diferentes áreas geográficas, puedes optimizar el inventario de cada tienda para satisfacer las demandas locales. Esto puede ayudar a reducir el exceso de inventario y minimizar las pérdidas debido a productos no vendidos.
+
+-Entender las preferencias de cada zona: Al analizar las zonas geográficas más frecuentes de compra, se puede identificar tendencias y preferencias en cuanto a productos o marcas. Esta información es valiosa para adaptar tu oferta de productos y servicios para satisfacer las necesidades y gustos locales.
+
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
-```{r}
+```{r setup, include=FALSE}
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 
@@ -380,17 +390,16 @@ ggplot(data = observaciones) +
 
 ```
 
-**Figura 5.Diagrama de barras para la variable HoraCompra.**
+**Figura 5. Diagrama de barras para la variable HoraCompra.**
 
-Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 13.
-Esta información puede ser útil para:
+Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 13. Esta información puede ser útil para:
 
--Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente. 
+-Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente.
 
--Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos. 
+-Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos.
 
 -Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
 
-
+En resumen, entender la hora más frecuente de compras puede ayudar a mejorar la eficiencia operativa, gestionar el inventario de manera más efectiva, optimizar las estrategias de marketing y aumentar las ventas en general.
 
 En la figura \@ref(fig:Table 1).
