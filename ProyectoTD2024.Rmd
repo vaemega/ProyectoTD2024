@@ -252,14 +252,21 @@ Tras un detallado análisis de los datos, hemos dado con una serie de preguntas 
 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general? ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
-```{r include=FALSE}
+```{r include=true}
 #observamos los productos más comprados en general
-#productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
+productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
+# extraemos los primeros 5 productos populares que se han comprado
+top_5_productos <- productos_populares %>%
+    head(n = 5)
+
 #la frecuencia 
-#productos_frecuentes <- observaciones %>%
-  #  group_by(Alimento) %>%
-   # summarise(Frecuencia_Compra = n()) %>%
-   # arrange(desc(Frecuencia_Compra))
+productos_frecuentes <- observaciones %>%
+    group_by(Alimento) %>%
+    summarise(Frecuencia_Compra = n()) %>%
+    arrange(desc(Frecuencia_Compra))
+#Creamos el gráfico
+ 
+
 
 
 ```
