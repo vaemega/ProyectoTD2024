@@ -207,6 +207,10 @@ observaciones <- observaciones %>%
   mutate(Parking = ifelse(!is.na(HoraEntrada) & !is.na(HoraSalida), "SI", "NO"))
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
 observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)  
+
+#Eliminamos la variable MetodoPago del dataframe
+observaciones <- observaciones %>%
+  select(-MetodoPago)
 ```
 
 # 1.2. Características generales de los datos
@@ -249,6 +253,9 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
 ¿Existen productos con precios más estables que otros?
 
 ```{r}
+observaciones_sin_na <- observaciones %>%
+  filter(!is.na(Precio))
+
 #Calculamos la desviación estándar de los precios por producto y excluimos los grupos con una sola observación
 precios_por_producto <- observaciones_sin_na %>%
   group_by(Alimento) %>%
