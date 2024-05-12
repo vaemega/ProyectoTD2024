@@ -248,6 +248,25 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
 
 ¿Existen productos con precios más estables que otros?
 
+```{r}
+#Calculamos la desviación estándar de los precios por producto y excluimos los grupos con una sola observación
+precios_por_producto <- observaciones_sin_na %>%
+  group_by(Alimento) %>%
+  filter(n() > 1) %>%
+  summarise(DesviacionEstandar = sd(Precio, na.rm = TRUE))
+
+#Ordenamos los productos por la desviación estándar de sus precios
+productos_estabilidad <- precios_por_producto %>%
+  arrange(DesviacionEstandar)
+
+#Seleccionamos los 10 productos con precios más estables
+productos_mas_estables <- head(productos_estabilidad, 10)
+productos_mas_estables
+
+#Seleccionamos los 10 productos con precios más volátiles
+productos_menos_estables <- tail(productos_estabilidad, 10)
+productos_menos_estables
+```
 
 **Productos Populares:** ¿Cuáles son los productos más comprados en general?
 
