@@ -278,18 +278,18 @@ top_5_frecuentes <- productos_frecuentes %>%
     head(n = 5)
 
 #Creamos el gráfico para representar los productos populares 
-ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total)) +
+ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total, fill = Alimento)) +
     geom_bar(stat = "identity") +
-    labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")
+    labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total") + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #Creamos el gráfico para representar los productos populares con las frecuencias 
 
-ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra)) +
+ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra, fill = Alimento)) +
   geom_bar(stat = "identity") + 
   labs(title = "los 5 productos más comprados ",
        x = "Productos",
        y = "Frecuencia") +  
-  theme_classic()  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
  
 
