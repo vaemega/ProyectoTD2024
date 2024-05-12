@@ -321,7 +321,7 @@ El eje vertical (Y) representa la cantidad total ("Cantidad_Total") comprada par
 Las barras del gráfico se extienden hacia arriba, siendo su altura proporcional a la cantidad total comprada de cada producto.
 En base a este gráfico, podemos identificar visualmente cuáles son los productos con mayor volumen de compra total.
 Ésta información es útil para conocer qué productos son los más demandados en términos de la cantidad absoluta comprada por los clientes.
-En resumen, la bolsa plastico es el producto más comprado, mientras que el plátano, bebida soja café, jamon c.extra, y banana tienen aproximadamente la misma cantidad comprada.
+En resumen, la bolsa plástico es el producto más comprado, mientras que el plátano, bebida soja café, jamón c.extra, y banana tienen aproximadamente la misma cantidad comprada.
 
 
 **Figura 3. Gráfico de barras para la frecuencia de los Productos populares.**
