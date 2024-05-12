@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # 1. Introducción
+
 En la era actual, donde la digitalización y la sostenibilidad son de suma importancia, la implementación de tickets electrónicos por parte de un conocido supermercado representa un avance significativo.
 Este cambio no solo promueve la reducción del uso de papel, sino que también abre un nuevo horizonte de posibilidades en el análisis de datos de consumo.
 Como estudiantes del GCD, nos enfrentamos al desafío de desarrollar un programa que no solo simplifique la transición a lo digital, sino que también permita un análisis exhaustivo de los hábitos de compra.
@@ -22,14 +23,18 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 Este análisis no solo beneficiará a los consumidores, quieciñnes podrán hacer un seguimiento de sus gastos y hábitos de consumo, sino que también proporcionará al supermercado datos cruciales para mejorar su oferta y estrategias de marketing.
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python 'TicketPDF2TXT.ipynb', estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente.
 A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
+
 # 1.1. Carga de librerías y datos necesarios para el análisis
+
 Primeramente, se cargan todas las librerias necesarias para poder analizar correctamente nuestro conjunto de datos.
+
 ```{r include=FALSE}
 #Cargamos las librerias necesarias.
 if (!require("pacman")) install.packages("pacman")
 library(pacman)
 p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```
+
 **Tabla 1.Variables de interés para el estudio de los datos.**
 
 ```{r include=FALSE}
@@ -203,9 +208,11 @@ observaciones <- observaciones %>%
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
 observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)  
 ```
+
 # 1.2. Características generales de los datos
+
 Podemos hacernos a la idea de las características generales de los datos utilizando funciones como glimpse, head, str, dim, is.na...
-En resumen, nuestro conjunto de datos está formado por 1478 observaciones y 14 variables.
+En resumen, nuestro conjunto de datos está formado por 1751 observaciones y 14 variables.
 ```{r echo=FALSE, warning=FALSE}
 #glimpse(observaciones)
 #head(observaciones)
@@ -217,10 +224,27 @@ En resumen, nuestro conjunto de datos está formado por 1478 observaciones y 14 
 
 
 # Preguntas
+
 Una vez que hemos garantizado que nuestros datos se encuentran en la estructura adecuada, podemos comenzar a explorar posibles patrones y tendencias que puedan surgir de nuestra información.
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
+
 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio?
 
+```{r}
+#Calculamos la desviación estándar de los precios para cada producto
+variaciones_precios <- observaciones %>%
+  group_by(Alimento) %>%
+  summarise(DesviacionEstandar = sd(Precio, na.rm = TRUE)) %>%
+  arrange(desc(DesviacionEstandar))
+
+#Ahora creamos un gráfico con los productos que tienen mayor variación de precios
+ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar), y=DesviacionEstandar)) +
+  geom_bar(stat="identity") +
+  theme_minimal() +
+  labs(x = "Producto", y = "Desviación Estándar del Precio") +
+  coord_flip() + # Esto voltea el gráfico para mejor visualización
+  ggtitle("Productos con Mayor Variación de Precios")
+```
 
 ¿Existen productos con precios más estables que otros?
 
