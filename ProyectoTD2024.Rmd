@@ -37,7 +37,7 @@ p_load(hms,readr,dplyr,tidyr,ggplot2)
 
 | Variables     | Descripción                                                   |
 |---------------------------------|---------------------------------------|
-| tikcet_id     | Identificador del ticket                                      |
+| ticket_id     | Identificador del ticket                                      |
 | Alimento      | Nombre del alimento                                           |
 | Cantidad      | Cantidad comprada de x alimento                               |
 | Precio        | Precio del alimento                                           |
@@ -312,7 +312,7 @@ Beneficios del análisis de productos y las frecuencias:
 
 
 
-**Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?
+**Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿Cuánto dinero paga la gente por este servicio?¿Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
 
 ```{r}
 #Gráfico para observar cuánta gente usa el aparcamiento, contando un único uso por ticket_id
@@ -327,6 +327,22 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
        x = "Aparcamiento Utilizado",
        y = "Cantidad de Tickets") +
   theme_minimal()
+```
+
+```{r}
+#Agrupamos los datos por ticket_id y precio del parking
+precio_parking_por_ticket <- observaciones %>%
+  group_by(PrecioParking) %>%
+  summarise(Count = n_distinct(ticket_id))
+
+#Creamos un gráfico de barras para visualizar el precio del parking por ticket_id
+ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  theme_minimal() +
+  labs(title = "Precio del Parking por Ticket",
+       x = "Precio del Parking",
+       y = "Cantidad de Tickets que usan el parking") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
