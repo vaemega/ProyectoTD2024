@@ -329,6 +329,12 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
   theme_minimal()
 ```
 
+La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
+
+Si solo 23 de 108 tickets indican el uso del aparcamiento, esto podría sugerir que una mayoría significativa de los clientes prefiere utilizar medios de transporte alternativos, como el transporte público, bicicletas o caminar. Una baja utilización del aparcamiento podría indicar que el supermercado está ubicado en una zona céntrica o bien conectada, donde los clientes no necesitan usar sus vehículos para llegar.
+
+El supermercado podría reconsiderar el espacio dedicado al aparcamiento. Si la demanda es baja, podrían rediseñar estos espacios para otros usos que generen ingresos o mejoren la experiencia del cliente.
+
 ```{r}
 #Agrupamos los datos por ticket_id y precio del parking
 precio_parking_por_ticket <- observaciones %>%
