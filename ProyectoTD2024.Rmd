@@ -351,6 +351,12 @@ ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
+Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito. Esto sugiere que sus compras son relativamente rápidas y no superan la hora, o que están gastando al menos 20€ para obtener dos horas gratis.
+
+El hecho de que solo un ticket muestre un pago de entre 0.5€ y 1€ indica que es poco común que los clientes excedan las dos horas de aparcamiento gratuito. Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes.
+
+La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis. Además, la tarifa de 8 céntimos por minuto después de las dos horas podría ser un disuasivo suficiente para evitar que los clientes se excedan, manteniendo así la rotación de espacios de aparcamiento.
+
 ```{r}
 #Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
 observaciones <- observaciones %>%
