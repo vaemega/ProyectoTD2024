@@ -32,7 +32,8 @@ if (!require("pacman")) install.packages("pacman")
 library(pacman)
 p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```
-**Tabla 1.Variables de interés para el estudio de los datos.**
+
+
 ```{r include=FALSE}
 library(bookdown)
 library(knitr)
@@ -66,7 +67,15 @@ tabla <- data.frame(
               "TARJ. BANCARIA")
 )
 ```
-Para responder a estas preguntas usaremos tan solo las variables de interés.Las podemos observar en esta tabla
+# 1.2. Características generales de los datos
+
+
+**Tabla 1.Variables de interés para el estudio de los datos.**
+
+Podemos hacernos a la idea de las características generales de los datos utilizando funciones como glimpse, head, str, dim, is.na...
+En resumen, nuestro conjunto de datos está formado por 1751 observaciones y 13 variables.
+
+
 ```{r Table 1, echo=FALSE, fig.align='center', fig.cap='Figura 1: Variables empleadas', out.width='60%'}
 knitr::kable(tabla, booktabs = TRUE,caption = 'Variables empleadas')
 ```
@@ -201,20 +210,16 @@ observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)
 observaciones <- observaciones %>%
   select(-MetodoPago)
 ```
-# 1.2. Características generales de los datos
-Podemos hacernos a la idea de las características generales de los datos utilizando funciones como glimpse, head, str, dim, is.na...
-En resumen, nuestro conjunto de datos está formado por 1751 observaciones y 13 variables.
-```{r echo=FALSE, warning=FALSE}
-#glimpse(observaciones)
-#head(observaciones)
-dim(observaciones)
-str(observaciones)
-```
+
+
 # Preguntas
 Una vez que hemos garantizado que nuestros datos se encuentran en la estructura adecuada, podemos comenzar a explorar posibles patrones y tendencias que puedan surgir de nuestra información.
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
+
+
+
 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio?
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=6, message=FALSE, warning=FALSE}
 #Calculamos la desviación estándar de los precios para cada producto
 variaciones_precios <- observaciones %>%
   group_by(Alimento) %>%
@@ -226,10 +231,11 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
   theme_minimal() +
   labs(x = "Producto", y = "Desviación Estándar del Precio") +
   coord_flip() + # Esto voltea el gráfico para mejor visualización
-  ggtitle("Productos con Mayor Variación de Precios")
+  ggtitle("Productos con Mayor Variación de Precios")+guides(fill = FALSE)
 ```
+\newpage
 ¿Existen productos con precios más estables que otros?
-```{r}
+```{r echo=FALSE}
 observaciones_sin_na <- observaciones %>%
   filter(!is.na(Precio))
 #Calculamos la desviación estándar de los precios por producto y excluimos los grupos con una sola observación
@@ -242,19 +248,39 @@ productos_estabilidad <- precios_por_producto %>%
   arrange(DesviacionEstandar)
 #Seleccionamos los 10 productos con precios más estables
 productos_mas_estables <- head(productos_estabilidad, 10)
-productos_mas_estables
-#Seleccionamos los 10 productos con precios más volátiles
-productos_menos_estables <- tail(productos_estabilidad, 10)
-productos_menos_estables
 ```
+
+```{r include=FALSE}
+tabla2 <- data.frame(ALIMENTO = c("A. ALIÑADA PICADEDOS",
+                "ABRILLANTADOR VAJILL",
+                "ACEITE GIRASOL",
+                "ACELGAS",
+                "ACT O% NAT ED 8",
+                "AGUA FUERTE-SALFUMAN",
+                "AGUA MINERAL",
+                "ALBONDIGAS 24 UNID.",
+                "ALCACHOFA BABY ",
+                "ALCAPARRAS"
+                ),
+  DesviacionEstandar= c(rep(0,times =10)))
+
+```
+
+```{r Table 2, echo=FALSE, fig.align='center', fig.cap='Figura 1: Variables empleadas', out.width='60%'}
+knitr::kable(tabla2, booktabs = TRUE,caption = 'Alimentos con precios más estables')
+```
+
 Al analizar la variación de precios de los productos dependiendo del supermercado, podemos incluir las siguientes conclusiones.
 Identificar qué supermercados ofrecen los mejores precios para ciertos productos y cómo esto afecta la elección del consumidor.
 Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promocionales para ser más competitivos.
 Comprender cómo la variación de precios entre supermercados influye en los hábitos de compra.
 Por ejemplo, si los consumidores prefieren viajar más lejos para obtener mejores precios o si la comodidad supera el ahorro.
+
+
+
 **Productos Populares:** ¿Cuáles son los productos más comprados en general?
 ¿Algunos productos son adquiridos con mayor frecuencia que otros?
-```{r echo=FALSE}
+```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 #Observamos los productos más comprados en general
 productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
 #Extraemos los primeros 5 productos populares que se han comprado
@@ -290,6 +316,8 @@ Las barras del gráfico se extienden hacia arriba, siendo su altura proporcional
 En base a este gráfico, podemos identificar visualmente cuáles son los productos con mayor volumen de compra total.
 Ésta información es útil para conocer qué productos son los más demandados en términos de la cantidad absoluta comprada por los clientes.
 En resumen, la bolsa plástica es el producto más comprado, mientras que el plátano, bebida soja café, jamón c.extra, y banana tienen aproximadamente la misma cantidad comprada.
+
+
 **Figura 3. Gráfico de barras para la frecuencia de los Productos populares.**
 El gráfico 3 muestra los 5 productos ("Alimento") más frecuentemente comprados en el eje horizontal (X).
 El eje vertical (Y) representa la "Frecuencia_Compra" para cada producto.
@@ -297,6 +325,8 @@ El eje vertical (Y) representa la "Frecuencia_Compra" para cada producto.
 La altura de cada barra refleja la frecuencia de compra de cada producto.
 Unas barras más altas indican que el producto correspondiente se compró con mayor frecuencia a lo largo del periodo analizado.
 Beneficios del análisis de productos y las frecuencias: 1-Comprensión del Comportamiento del Consumidor: Permite conocer qué productos son más demandados por los clientes 2-Optimización de Inventario: Al identificar los productos más populares, se puede optimizar la gestión de inventario, asegurando que haya suficiente stock disponible para satisfacer la demanda.
+
+
 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿
 Cuánto dinero paga la gente por este servicio?¿
 Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
@@ -317,7 +347,7 @@ Si solo 23 de 108 tickets indican el uso del aparcamiento, esto podría sugerir 
 Una baja utilización del aparcamiento podría indicar que el supermercado está ubicado en una zona céntrica o bien conectada, donde los clientes no necesitan usar sus vehículos para llegar.
 El supermercado podría reconsiderar el espacio dedicado al aparcamiento.
 Si la demanda es baja, podrían rediseñar estos espacios para otros usos que generen ingresos o mejoren la experiencia del cliente.
-```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Agrupamos los datos por ticket_id y precio del parking
 precio_parking_por_ticket <- observaciones %>%
   group_by(PrecioParking) %>%
@@ -337,7 +367,7 @@ El hecho de que solo un ticket muestre un pago de entre 0.5€ y 1€ indica que
 Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes.
 La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis.
 Además, la tarifa de 8 céntimos por minuto después de las dos horas podría ser un disuasivo suficiente para evitar que los clientes se excedan, manteniendo así la rotación de espacios de aparcamiento.
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
 observaciones_parking_noNA <- observaciones %>%
   filter(!is.na(HoraEntrada)) %>%
@@ -409,19 +439,19 @@ A primera vista este gráfico no resulta muy revelador, aunque si observamos det
  labs(title="Histograma del gasto de compra",x="Precio",y="Cantidad")
 ```
 De esta manera, es fácil ver que muchas compras no superan los 25 euros.Este suceso puede deberse a que entre semana, los compradores solo adquieren productos básicos de higiene,limpieza y comida, mientras que los fines de semana es cuando se adquiere mayor cantidad de productos , lo que conlleva un mayor gasto de compra.
-**Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
+
 ```{r include=FALSE}
 precio_cantidad <- observaciones[,c("Alimento","Cantidad","Precio")]
 precio_cantidad <- precio_cantidad %>% mutate(PrecioUnidad = Precio / Cantidad)
 cor(precio_cantidad[,c("Cantidad","PrecioUnidad")], method = "spearman")
 ```
 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 #Primero compruebo si la dirección es un carácter:
 obs<- observaciones %>%
   group_by(Ciudad) %>%
   summarise(Count = n_distinct(ticket_id))
-class(observaciones$Ciudad)
+
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
 s <- ggplot(data = obs, aes(x= reorder(Ciudad, Count),y=Count,fill = Count)) +  geom_bar(stat = "identity") + (labs(x = "Ciudades", y = "Compras",title = "Distribución geográfica de las compras"))
 h <- s + theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -439,7 +469,7 @@ Esta información es valiosa para adaptar tu oferta de productos y servicios par
 
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
-```{r echo=FALSE}
+```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 obs_hora_compra<- observaciones %>%
   group_by(HoraCompra) %>%
   summarise(Count = n_distinct(ticket_id))
