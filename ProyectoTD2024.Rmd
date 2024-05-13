@@ -444,7 +444,7 @@ obs_hora_compra<- observaciones %>%
   group_by(HoraCompra) %>%
   summarise(Count = n_distinct(ticket_id))
 #Primero observo de que tipo es la variable "HoraCompra":
-class(observaciones$HoraCompra)
+
 # Extraemos solo la hora de la variable "HoraCompra":
 observaciones$HoraCompra <- substring(observaciones$HoraCompra, 1, 2)
 # Creamos el gráfico con las horas agrupadas:
@@ -459,8 +459,11 @@ Esta información puede ser útil para: -Optimización del personal: Saber cuán
 -Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos.
 -Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
 En resumen, entender la hora más frecuente de compras puede ayudar a mejorar la eficiencia operativa, gestionar el inventario de manera más efectiva, optimizar las estrategias de marketing y aumentar las ventas en general.
-En la figura \@ref(fig:Table 1).
+
+
 # Conclusión
+
+
 En conclusión, el desarrollo de este proyecto sobre la extracción de información de tickets del supermercado Mercadona
 ha sido todo un reto para nosotros ya que es la primera vez que nos enfrentabamos a un trabajo de este tipo.Desde el inicio del proyecto, abordamos diversas cuestiones sobre el conjunto de datos, desde la distribución de variables numéricas como el precio de compra, hasta la exploración de relaciones entre diferentes variables como la relación entre el precio y la cantidad vendida.
 Todo ello nos ha proporcionado un conocimiento sólido sobre el problema en un corto período de tiempo, sin necesidad de especializarnos como expertos en el campo. Además, nos hemos enfrentado a desafíos comunes en el análisis de datos, como la falta de datos o errores en los mismos, lo que nos ha permitido desarrollar habilidades para abordar estos problemas de manera efectiva.
