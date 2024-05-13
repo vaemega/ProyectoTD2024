@@ -462,9 +462,13 @@ cor(precio_cantidad[,c("Cantidad","PrecioUnidad")], method = "spearman")
 
 ```{r echo=FALSE, warning=FALSE}
 #Primero compruebo si la dirección es un carácter:
+
+obs<- observaciones %>%
+  group_by(Ciudad) %>%
+  summarise(Count = n_distinct(ticket_id))
 class(observaciones$Ciudad)
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
-ggplot(data = observaciones) +  geom_bar(mapping = aes(x = Ciudad, fill = Ciudad)) + (labs(x = "Ciudades", y = "Compras",
+ggplot(data = obs, aes(x= Ciudad,fill = Ciudad,y=Count)) +  geom_bar(stat = "identity") + (labs(x = "Ciudades", y = "Compras",
    title = "Distribución geográfica de las compras"))  +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
