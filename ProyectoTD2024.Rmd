@@ -391,13 +391,16 @@ observaciones_unicas <- observaciones_parking_noNA %>%
   group_by(ticket_id, Intervalo) %>%
   summarise(n = n_distinct(ticket_id))
 #Creamos el gráfico
-ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
-  geom_histogram(stat = "identity") +
-  xlab("Intervalo Horario") +
-  ylab("Cantidad de Tickets") +
-  ggtitle("Hora de Entrada al Parking") +
-  theme_minimal() +
-  theme(legend.position = "none")
+ggplot(observaciones_parking_noNA, aes(x = HoraEntrada)) +
+  geom_histogram(breaks = seq(min(observaciones_parking_noNA$HoraEntrada),
+                              max(observaciones_parking_noNA$HoraEntrada),
+                              by = "1 hour"), # Ajusta el intervalo según sea necesario
+  col = "black", fill = "blue") + # Personaliza los colores según prefieras
+  xlab("Hora de Entrada") +
+  ylab("Frecuencia") +
+  ggtitle("Distribución de Horas de Entrada al Parking") +
+  theme_minimal()
+
 ```
 
 El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
@@ -485,13 +488,16 @@ Esta información es valiosa para adaptar tu oferta de productos y servicios par
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
 ```{r echo=FALSE}
+obs_hora_compra <- observaciones %>%
+  group_by(HoraCompra) %>%
+  summarise(Count = n_distinct(ticket_id))
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 # Extraemos solo la hora de la variable "HoraCompra":
 observaciones$HoraCompra <- substring(observaciones$HoraCompra, 1, 2)
 # Creamos el gráfico con las horas agrupadas:
-ggplot(data = observaciones) +  
-  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) +
+ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +  
+  geom_bar(stat = "identity") +
   labs(x = "Hora de compra", y = "Compras", title = "Distribución horaria de compras")
 ```
 
