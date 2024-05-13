@@ -468,9 +468,12 @@ obs<- observaciones %>%
   summarise(Count = n_distinct(ticket_id))
 class(observaciones$Ciudad)
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
-ggplot(data = obs, aes(x= Ciudad,fill = Ciudad,y=Count)) +  geom_bar(stat = "identity") + (labs(x = "Ciudades", y = "Compras",
-   title = "Distribución geográfica de las compras"))  +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+s <- ggplot(data = obs, aes(x= reorder(Ciudad, Count),y=Count,fill = Count)) +  geom_bar(stat = "identity") + (labs(x = "Ciudades", y = "Compras",title = "Distribución geográfica de las compras"))
+
+h <- s + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p <- h + scale_fill_gradient(low="blue",high="red")
+p
 ```
 
 **Figura 4. Diagrama de barras para la variable Ciudad.** Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: -Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas.
