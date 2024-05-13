@@ -409,7 +409,7 @@ Por ejemplo, si la cultura local favorece las cenas tardías, esto podría expli
 
 **Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
 Para responder a esta pregunta primeramente necesitaremos saber el gasto total que se ha realizado en todas las compras.Por ello, utilizaremos la variable ("Precio"), en donde se ha guardado el precio que se ha pagado por cada alimento.Sumaremos los valores de la variable Precio y con ello ya habriamos obtenido el gasto total.
-Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4537.81 euros gastados y 107 tickets de compra: gasto medio = $\frac{4537.81€}{107} = 42.41€$
+Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4545.18 euros gastados y 108 tickets de compra: gasto medio = $\frac{4545.18}{108} = 42.085€$
 
 A continución para ilustrar este resultado y ponerlo en perpectiva al gasto que se ha realizado en cada compra,hemos realizado una gráfico de dispersión, en donde en el eje X encotraremos el identificador de cada ticket, mientra que en el eje Y se encuentra el importe total de cada ticket ordenados de mayor a menor, y para comparar hemos añadido una linea horizontal que marca el gasto medio de las compras.
 
@@ -485,13 +485,17 @@ Esta información es valiosa para adaptar tu oferta de productos y servicios par
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
 ```{r echo=FALSE}
+obs_hora_compra<- observaciones %>%
+  group_by(HoraCompra) %>%
+  summarise(Count = n_distinct(ticket_id))
+
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 # Extraemos solo la hora de la variable "HoraCompra":
 observaciones$HoraCompra <- substring(observaciones$HoraCompra, 1, 2)
 # Creamos el gráfico con las horas agrupadas:
-ggplot(data = observaciones) +  
-  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) +
+ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +  
+  geom_bar(stat = "identity") +
   labs(x = "Hora de compra", y = "Compras", title = "Distribución horaria de compras")
 ```
 
