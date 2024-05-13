@@ -16,9 +16,7 @@ editor_options:
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 # 1. Introducción
-
 En la era actual, donde la digitalización y la sostenibilidad son de suma importancia, la implementación de tickets electrónicos por parte de un conocido supermercado representa un avance significativo.
 Este cambio no solo promueve la reducción del uso de papel, sino que también abre un nuevo horizonte de posibilidades en el análisis de datos de consumo.
 Como estudiantes del GCD, nos enfrentamos al desafío de desarrollar un programa que no solo simplifique la transición a lo digital, sino que también permita un análisis exhaustivo de los hábitos de compra.
@@ -26,20 +24,15 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 Este análisis no solo beneficiará a los consumidores, quieciñnes podrán hacer un seguimiento de sus gastos y hábitos de consumo, sino que también proporcionará al supermercado datos cruciales para mejorar su oferta y estrategias de marketing.
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python 'TicketPDF2TXT.ipynb', estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente.
 A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
-
 # 1.1. Carga de librerías y datos necesarios para el análisis
-
 Primeramente, se cargan todas las librerias necesarias para poder analizar correctamente nuestro conjunto de datos.
-
 ```{r include=FALSE}
 #Cargamos las librerias necesarias.
 if (!require("pacman")) install.packages("pacman")
 library(pacman)
 p_load(hms,readr,dplyr,tidyr,ggplot2)
 ```
-
 **Tabla 1.Variables de interés para el estudio de los datos.**
-
 ```{r include=FALSE}
 library(bookdown)
 library(knitr)
@@ -73,13 +66,10 @@ tabla <- data.frame(
               "TARJ. BANCARIA")
 )
 ```
-
 Para responder a estas preguntas usaremos tan solo las variables de interés.Las podemos observar en esta tabla
-
 ```{r Table 1, echo=FALSE, fig.align='center', fig.cap='Figura 1: Variables empleadas', out.width='60%'}
 knitr::kable(tabla, booktabs = TRUE,caption = 'Variables empleadas')
 ```
-
 ```{r warning=FALSE, include=FALSE}
 #Creamos una función que nos permita transformar el fichero txt a un dataframe
 #con las variables que nos serán útiles para responder a las preguntas
@@ -207,38 +197,29 @@ observaciones <- observaciones %>%
   mutate(Parking = ifelse(!is.na(HoraEntrada) & !is.na(HoraSalida), "SI", "NO"))
 observaciones <- observaciones %>% filter(Alimento != "PARKING")
 observaciones[,"ticket_id"] <- sapply(observaciones[,"ticket_id"],as.numeric)  
-
 #Eliminamos la variable MetodoPago del dataframe
 observaciones <- observaciones %>%
   select(-MetodoPago)
 ```
-
 # 1.2. Características generales de los datos
-
 Podemos hacernos a la idea de las características generales de los datos utilizando funciones como glimpse, head, str, dim, is.na...
 En resumen, nuestro conjunto de datos está formado por 1751 observaciones y 13 variables.
-
 ```{r echo=FALSE, warning=FALSE}
 #glimpse(observaciones)
 #head(observaciones)
 dim(observaciones)
 str(observaciones)
 ```
-
 # Preguntas
-
 Una vez que hemos garantizado que nuestros datos se encuentran en la estructura adecuada, podemos comenzar a explorar posibles patrones y tendencias que puedan surgir de nuestra información.
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
-
 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio?
-
 ```{r}
 #Calculamos la desviación estándar de los precios para cada producto
 variaciones_precios <- observaciones %>%
   group_by(Alimento) %>%
   summarise(DesviacionEstandar = sd(Precio, na.rm = TRUE)) %>%
   arrange(desc(DesviacionEstandar))
-
 #Ahora creamos un gráfico con los productos que tienen mayor variación de precios
 ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar), y=DesviacionEstandar, fill = Alimento)) +
   geom_bar(stat="identity") +
@@ -247,42 +228,32 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
   coord_flip() + # Esto voltea el gráfico para mejor visualización
   ggtitle("Productos con Mayor Variación de Precios")
 ```
-
 ¿Existen productos con precios más estables que otros?
-
 ```{r}
 observaciones_sin_na <- observaciones %>%
   filter(!is.na(Precio))
-
 #Calculamos la desviación estándar de los precios por producto y excluimos los grupos con una sola observación
 precios_por_producto <- observaciones_sin_na %>%
   group_by(Alimento) %>%
   filter(n() > 1) %>%
   summarise(DesviacionEstandar = sd(Precio, na.rm = TRUE))
-
 #Ordenamos los productos por la desviación estándar de sus precios
 productos_estabilidad <- precios_por_producto %>%
   arrange(DesviacionEstandar)
-
 #Seleccionamos los 10 productos con precios más estables
 productos_mas_estables <- head(productos_estabilidad, 10)
 productos_mas_estables
-
 #Seleccionamos los 10 productos con precios más volátiles
 productos_menos_estables <- tail(productos_estabilidad, 10)
 productos_menos_estables
 ```
-
 Al analizar la variación de precios de los productos dependiendo del supermercado, podemos incluir las siguientes conclusiones.
 Identificar qué supermercados ofrecen los mejores precios para ciertos productos y cómo esto afecta la elección del consumidor.
 Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promocionales para ser más competitivos.
 Comprender cómo la variación de precios entre supermercados influye en los hábitos de compra.
 Por ejemplo, si los consumidores prefieren viajar más lejos para obtener mejores precios o si la comodidad supera el ahorro.
-
 **Productos Populares:** ¿Cuáles son los productos más comprados en general?
-
 ¿Algunos productos son adquiridos con mayor frecuencia que otros?
-
 ```{r echo=FALSE}
 #Observamos los productos más comprados en general
 productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
@@ -298,7 +269,6 @@ productos_frecuentes <- observaciones %>%
 top_5_frecuentes <- productos_frecuentes %>%
     head(n = 5)
 #Creamos el gráfico para representar los productos populares 
-
 ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total, fill = Alimento)) +
     geom_bar(stat = "identity") +
     labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")+
@@ -306,7 +276,6 @@ ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total, fill = Alimento)) 
       theme(axis.text.x = element_text(angle = 25, hjust = 1))
       
 #Creamos el gráfico para representar los productos populares con las frecuencias 
-
 ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra, fill = Alimento)) +
   geom_bar(stat = "identity") + 
   labs(title = "los 5 productos más comprados ",
@@ -315,16 +284,13 @@ ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra, fill = Aliment
   theme_classic()+theme(axis.text.x = element_text(angle = 25, hjust = 1))
  
 ```
-
 **Figura 2. Gráfico de barras para los Productos populares.** El eje horizontal (X) muestra los nombres de los productos ("Alimento").
 El eje vertical (Y) representa la cantidad total ("Cantidad_Total") comprada para cada producto a lo largo de todos los tickets de compra analizados.
 Las barras del gráfico se extienden hacia arriba, siendo su altura proporcional a la cantidad total comprada de cada producto.
 En base a este gráfico, podemos identificar visualmente cuáles son los productos con mayor volumen de compra total.
 Ésta información es útil para conocer qué productos son los más demandados en términos de la cantidad absoluta comprada por los clientes.
 En resumen, la bolsa plástica es el producto más comprado, mientras que el plátano, bebida soja café, jamón c.extra, y banana tienen aproximadamente la misma cantidad comprada.
-
 **Figura 3. Gráfico de barras para la frecuencia de los Productos populares.**
-
 El gráfico 3 muestra los 5 productos ("Alimento") más frecuentemente comprados en el eje horizontal (X).
 El eje vertical (Y) representa la "Frecuencia_Compra" para cada producto.
 Éste valor indica cuántas veces aparece un determinado producto en los tickets de compra analizados.
@@ -334,7 +300,6 @@ Beneficios del análisis de productos y las frecuencias: 1-Comprensión del Comp
 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿
 Cuánto dinero paga la gente por este servicio?¿
 Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
-
 ```{r echo=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Gráfico para observar cuánta gente usa el aparcamiento, contando un único uso por ticket_id
 uso_parking_total <- observaciones %>%
@@ -347,13 +312,11 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
        y = "Cantidad de Tickets") +
   theme_minimal()
 ```
-
 La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
 Si solo 23 de 108 tickets indican el uso del aparcamiento, esto podría sugerir que una mayoría significativa de los clientes prefiere utilizar medios de transporte alternativos, como el transporte público, bicicletas o caminar.
 Una baja utilización del aparcamiento podría indicar que el supermercado está ubicado en una zona céntrica o bien conectada, donde los clientes no necesitan usar sus vehículos para llegar.
 El supermercado podría reconsiderar el espacio dedicado al aparcamiento.
 Si la demanda es baja, podrían rediseñar estos espacios para otros usos que generen ingresos o mejoren la experiencia del cliente.
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 #Agrupamos los datos por ticket_id y precio del parking
 precio_parking_por_ticket <- observaciones %>%
@@ -368,14 +331,12 @@ ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
        y = "Cantidad de Tickets que usan el parking") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
-
 Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito.
 Esto sugiere que sus compras son relativamente rápidas y no superan la hora, o que están gastando al menos 20€ para obtener dos horas gratis.
 El hecho de que solo un ticket muestre un pago de entre 0.5€ y 1€ indica que es poco común que los clientes excedan las dos horas de aparcamiento gratuito.
 Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes.
 La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis.
 Además, la tarifa de 8 céntimos por minuto después de las dos horas podría ser un disuasivo suficiente para evitar que los clientes se excedan, manteniendo así la rotación de espacios de aparcamiento.
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
 observaciones_parking_noNA <- observaciones %>%
@@ -399,7 +360,6 @@ ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
-
 El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
 Esto podría deberse a que las personas prefieren hacer sus compras después del trabajo o en las horas de la tarde-noche.
 El supermercado podría necesitar más personal y cajas abiertas durante este período pico para manejar el aumento del flujo de clientes y evitar largas colas.
@@ -407,16 +367,19 @@ Podría ser una oportunidad para el supermercado de lanzar promociones o descuen
 Estos datos pueden ser un indicativo de los hábitos de vida de la comunidad local.
 Por ejemplo, si la cultura local favorece las cenas tardías, esto podría explicar por qué hay más actividad en el supermercado durante las últimas horas del día.
 
+
 **Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
 Para responder a esta pregunta primeramente necesitaremos saber el gasto total que se ha realizado en todas las compras.Por ello, utilizaremos la variable ("Precio"), en donde se ha guardado el precio que se ha pagado por cada alimento.Sumaremos los valores de la variable Precio y con ello ya habriamos obtenido el gasto total.
-Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4537.81 euros gastados y 107 tickets de compra: gasto medio = $\frac{4537.81€}{107} = 42.41€$
+
+Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4545.18 euros gastados y 108 tickets de compra: gasto medio = $\frac{4545.18}{108} = 42.085€$
 
 A continución para ilustrar este resultado y ponerlo en perpectiva al gasto que se ha realizado en cada compra,hemos realizado una gráfico de dispersión, en donde en el eje X encotraremos el identificador de cada ticket, mientra que en el eje Y se encuentra el importe total de cada ticket ordenados de mayor a menor, y para comparar hemos añadido una linea horizontal que marca el gasto medio de las compras.
+
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 num_tickets <- length(unique(observaciones[,"ticket_id"]))
 media_compra <- sum(observaciones[,"Precio"],na.rm = TRUE) / num_tickets
-
 data_compra <- observaciones[,c('ticket_id','Precio')]
 data_compra <- data_compra %>%
   group_by(ticket_id) %>%
@@ -435,9 +398,7 @@ data_compra %>%
   annotate("text", x= 18, y=4+media_compra, label=paste0('Gasto promedio')) +
   theme(axis.text.x=element_text(angle=30))
 ```
-
 A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros.Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
  ggplot(data=data_compra, aes(x=Precio))+
  geom_histogram(aes(stat = "identity"),
@@ -447,51 +408,49 @@ A primera vista este gráfico no resulta muy revelador, aunque si observamos det
  alpha=.4) +
  labs(title="Histograma del gasto de compra",x="Precio",y="Cantidad")
 ```
-
 De esta manera, es fácil ver que muchas compras no superan los 25 euros.Este suceso puede deberse a que entre semana, los compradores solo adquieren productos básicos de higiene,limpieza y comida, mientras que los fines de semana es cuando se adquiere mayor cantidad de productos , lo que conlleva un mayor gasto de compra.
-
 **Precio - Cantidad vendida:** ¿Existe alguna correlación entre el precio de los productos y la cantidad vendida?
-
 ```{r include=FALSE}
 precio_cantidad <- observaciones[,c("Alimento","Cantidad","Precio")]
 precio_cantidad <- precio_cantidad %>% mutate(PrecioUnidad = Precio / Cantidad)
 cor(precio_cantidad[,c("Cantidad","PrecioUnidad")], method = "spearman")
 ```
-
 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
-
 ```{r echo=FALSE, warning=FALSE}
 #Primero compruebo si la dirección es un carácter:
-
 obs<- observaciones %>%
   group_by(Ciudad) %>%
   summarise(Count = n_distinct(ticket_id))
 class(observaciones$Ciudad)
 #He hecho esta comprobación porque dependiendo el tipo de variable hay que hacer un gráfico u otro.
 s <- ggplot(data = obs, aes(x= reorder(Ciudad, Count),y=Count,fill = Count)) +  geom_bar(stat = "identity") + (labs(x = "Ciudades", y = "Compras",title = "Distribución geográfica de las compras"))
-
 h <- s + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 p <- h + scale_fill_gradient(low="blue",high="red")
 p
 ```
-
 **Figura 4. Diagrama de barras para la variable Ciudad.** Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: -Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas.
 Esta información puede ser útil al considerar la apertura de nuevas tiendas o la reubicación de tiendas existentes para maximizar la conveniencia para los clientes.
 -Optimización de inventario: Al comprender qué productos son más populares en diferentes áreas geográficas, puedes optimizar el inventario de cada tienda para satisfacer las demandas locales.
 Esto puede ayudar a reducir el exceso de inventario y minimizar las pérdidas debido a productos no vendidos.
 -Entender las preferencias de cada zona: Al analizar las zonas geográficas más frecuentes de compra, se puede identificar tendencias y preferencias en cuanto a productos o marcas.
 Esta información es valiosa para adaptar tu oferta de productos y servicios para satisfacer las necesidades y gustos locales.
+
+
+
 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
 ```{r echo=FALSE}
+obs_hora_compra<- observaciones %>%
+  group_by(HoraCompra) %>%
+  summarise(Count = n_distinct(ticket_id))
 #Primero observo de que tipo es la variable "HoraCompra":
 class(observaciones$HoraCompra)
 # Extraemos solo la hora de la variable "HoraCompra":
 observaciones$HoraCompra <- substring(observaciones$HoraCompra, 1, 2)
 # Creamos el gráfico con las horas agrupadas:
-ggplot(data = observaciones) +  
-  geom_bar(mapping = aes(x = HoraCompra, fill = HoraCompra)) +
+
+ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +  
+  geom_bar(stat = "identity") +
   labs(x = "Hora de compra", y = "Compras", title = "Distribución horaria de compras")
 ```
 
@@ -501,13 +460,13 @@ Esta información puede ser útil para: -Optimización del personal: Saber cuán
 -Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
 En resumen, entender la hora más frecuente de compras puede ayudar a mejorar la eficiencia operativa, gestionar el inventario de manera más efectiva, optimizar las estrategias de marketing y aumentar las ventas en general.
 En la figura \@ref(fig:Table 1).
-
 # Conclusión
-
 En conclusión, el desarrollo de este proyecto sobre la extracción de información de tickets del supermercado Mercadona
 ha sido todo un reto para nosotros ya que es la primera vez que nos enfrentabamos a un trabajo de este tipo.Desde el inicio del proyecto, abordamos diversas cuestiones sobre el conjunto de datos, desde la distribución de variables numéricas como el precio de compra, hasta la exploración de relaciones entre diferentes variables como la relación entre el precio y la cantidad vendida.
-
 Todo ello nos ha proporcionado un conocimiento sólido sobre el problema en un corto período de tiempo, sin necesidad de especializarnos como expertos en el campo. Además, nos hemos enfrentado a desafíos comunes en el análisis de datos, como la falta de datos o errores en los mismos, lo que nos ha permitido desarrollar habilidades para abordar estos problemas de manera efectiva.
-
-
 Sin embargo, consideramos que lo más importante de este proyecto es el habernos enfrentado por primera vez a un problema real en Ciencia de Datos.Además,la necesidad de tomar decisiones en equipo nos ha permitido desarrollar habilidades colaborativas, lo cual sin duda enriquecerá nuestra capacidad para trabajar en equipo en futuras situaciones.
+
+
+
+
+
