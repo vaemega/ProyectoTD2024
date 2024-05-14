@@ -422,7 +422,7 @@ Por ejemplo, si la cultura local favorece las cenas tardías, esto podría expli
 ## 2.4 **Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
 Para responder a esta pregunta primeramente necesitaremos saber el gasto total que se ha realizado en todas las compras.Por ello, utilizaremos la variable ("Precio"), en donde se ha guardado el precio que se ha pagado por cada alimento.Sumaremos los valores de la variable Precio y con ello ya habriamos obtenido el gasto total.
 
-Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4545.18 euros gastados y 108 tickets de compra: gasto medio = $\frac{4545.18}{108} = 42.085€$
+Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4545.18 euros gastados y 108 tickets de compra: gasto medio = $\frac{4545.18}{108} = 42.085$ euros
 
 A continución para ilustrar este resultado y ponerlo en perpectiva al gasto que se ha realizado en cada compra,hemos realizado una gráfico de dispersión, en donde en el eje X encotraremos el identificador de cada ticket, mientra que en el eje Y se encuentra el importe total de cada ticket ordenados de mayor a menor, y para comparar hemos añadido una linea horizontal que marca el gasto medio de las compras.
 
