@@ -26,7 +26,9 @@ Nuestro objetivo es crear una herramienta que analice los tickets electrónicos 
 Este análisis no solo beneficiará a los consumidores, quieciñnes podrán hacer un seguimiento de sus gastos y hábitos de consumo, sino que también proporcionará al supermercado datos cruciales para mejorar su oferta y estrategias de marketing.
 Con varios tickets ya disponibles para comenzar nuestro trabajo y con la ayuda del notebook de Python 'TicketPDF2TXT.ipynb', estamos listos para transformar los datos de los tickets en formato PDF a texto, lo que nos permitirá procesar y analizar la información de manera eficiente.
 A medida que agreguemos más tickets a nuestra base de datos, nuestro programa se enriquecerá, ofreciendo una visión más amplia y precisa del comportamiento del consumidor.
-# 1.1.
+
+## 1.1. Carga de librerías
+
 Carga de librerías y datos necesarios para el análisis Primeramente, se cargan todas las librerias necesarias para poder analizar correctamente nuestro conjunto de datos.
 
 ```{r include=FALSE}
@@ -80,7 +82,7 @@ tabla <- data.frame(
   
 ```
 
-# 1.2. Características generales de los datos
+## 1.2. Características generales de los datos
 
 **Tabla 1.Variables de interés para el estudio de los datos.**
 
@@ -222,12 +224,12 @@ observaciones <- observaciones %>%
   select(-MetodoPago)
 ```
 
-# Preguntas
+# 2. Preguntas
 
 Una vez que hemos garantizado que nuestros datos se encuentran en la estructura adecuada, podemos comenzar a explorar posibles patrones y tendencias que puedan surgir de nuestra información.
 Tras un detallado análisis de los datos, hemos dado con una serie de preguntas que nos resultarán muy útiles para nuestro proyecto.
 
-**Cambio de Precio:** ¿Qué productos son los que más cambian de precio?
+## 2.1 **Cambio de Precio:** ¿Qué productos son los que más cambian de precio?
 
 ```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=6, message=FALSE, warning=FALSE}
 #Calculamos la desviación estándar de los precios para cada producto
@@ -244,9 +246,11 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
   ggtitle("Productos con Mayor Variación de Precios")+guides(fill = FALSE)
 ```
 
+**Figura 1. Gráfico de barras para los productos que más cambian de precio.**
+
 \newpage
 
-¿Existen productos con precios más estables que otros?
+## ¿Existen productos con precios más estables que otros?
 
 ```{r echo=FALSE}
 observaciones_sin_na <- observaciones %>%
@@ -289,7 +293,7 @@ Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promoc
 Comprender cómo la variación de precios entre supermercados influye en los hábitos de compra.
 Por ejemplo, si los consumidores prefieren viajar más lejos para obtener mejores precios o si la comodidad supera el ahorro.
 
-**Productos Populares:** ¿Cuáles son los productos más comprados en general?
+## 2.2 **Productos Populares:** ¿Cuáles son los productos más comprados en general?
 ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
 ```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
@@ -337,9 +341,7 @@ La altura de cada barra refleja la frecuencia de compra de cada producto.
 Unas barras más altas indican que el producto correspondiente se compró con mayor frecuencia a lo largo del periodo analizado.
 Beneficios del análisis de productos y las frecuencias: 1-Comprensión del Comportamiento del Consumidor: Permite conocer qué productos son más demandados por los clientes 2-Optimización de Inventario: Al identificar los productos más populares, se puede optimizar la gestión de inventario, asegurando que haya suficiente stock disponible para satisfacer la demanda.
 
-**Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?¿
-Cuánto dinero paga la gente por este servicio?¿
-Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
+## 2.3 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?
 
 ```{r echo=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Gráfico para observar cuánta gente usa el aparcamiento, contando un único uso por ticket_id
@@ -354,11 +356,13 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
   theme_minimal()
 ```
 
-La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
+**Figura 4. Gráfico de barras sobre el uso del parking.** La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
 Si solo 23 de 108 tickets indican el uso del aparcamiento, esto podría sugerir que una mayoría significativa de los clientes prefiere utilizar medios de transporte alternativos, como el transporte público, bicicletas o caminar.
 Una baja utilización del aparcamiento podría indicar que el supermercado está ubicado en una zona céntrica o bien conectada, donde los clientes no necesitan usar sus vehículos para llegar.
 El supermercado podría reconsiderar el espacio dedicado al aparcamiento.
 Si la demanda es baja, podrían rediseñar estos espacios para otros usos que generen ingresos o mejoren la experiencia del cliente.
+
+## ¿Cuánto dinero paga la gente por este servicio?
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Agrupamos los datos por ticket_id y precio del parking
@@ -375,12 +379,14 @@ ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito.
+**Figura 5. Gráfico de barras para el precio del parking.**Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito.
 Esto sugiere que sus compras son relativamente rápidas y no superan la hora, o que están gastando al menos 20€ para obtener dos horas gratis.
 El hecho de que solo un ticket muestre un pago de entre 0.5€ y 1€ indica que es poco común que los clientes excedan las dos horas de aparcamiento gratuito.
 Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes.
 La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis.
 Además, la tarifa de 8 céntimos por minuto después de las dos horas podría ser un disuasivo suficiente para evitar que los clientes se excedan, manteniendo así la rotación de espacios de aparcamiento.
+
+## ¿Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=3, fig.width=4,fig.align='center'}
 #Nos aseguramos de que 'HoraEntrada' esté en el formato correcto y no sea NA
@@ -406,14 +412,14 @@ ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
   theme(legend.position = "none")
 ```
 
-El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
+**Figura 6. Gráfico de barras sobre los intervalos horarios del uso del parking.** El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
 Esto podría deberse a que las personas prefieren hacer sus compras después del trabajo o en las horas de la tarde-noche.
 El supermercado podría necesitar más personal y cajas abiertas durante este período pico para manejar el aumento del flujo de clientes y evitar largas colas.
 Podría ser una oportunidad para el supermercado de lanzar promociones o descuentos específicos en este horario para atraer aún más clientes o para incentivar las visitas en las franjas horarias menos concurridas.
 Estos datos pueden ser un indicativo de los hábitos de vida de la comunidad local.
 Por ejemplo, si la cultura local favorece las cenas tardías, esto podría explicar por qué hay más actividad en el supermercado durante las últimas horas del día.
 
-**Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
+## 2.4 **Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
 Para responder a esta pregunta primeramente necesitaremos saber el gasto total que se ha realizado en todas las compras.Por ello, utilizaremos la variable ("Precio"), en donde se ha guardado el precio que se ha pagado por cada alimento.Sumaremos los valores de la variable Precio y con ello ya habriamos obtenido el gasto total.
 
 Para calcular el gasto promedio emplearemos esta sencilla fórmula $\frac{gasto \space total}{número \space de \space tickets}$, en donde tenemos un total de 4545.18 euros gastados y 108 tickets de compra: gasto medio = $\frac{4545.18}{108} = 42.085€$
@@ -444,7 +450,7 @@ data_compra %>%
         axis.title.x=element_blank()) 
 ```
 
-A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros.Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
+**Figura 7. Gráfico de dispersión para el precio total por compra.** A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros.Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
  ggplot(data=data_compra, aes(x=Precio))+
@@ -456,7 +462,7 @@ A primera vista este gráfico no resulta muy revelador, aunque si observamos det
  labs(title="Histograma del gasto de compra",x="Precio",y="Cantidad")
 ```
 
-De esta manera, es fácil ver que muchas compras no superan los 25 euros.Este suceso puede deberse a que entre semana, los compradores solo adquieren productos básicos de higiene,limpieza y comida, mientras que los fines de semana es cuando se adquiere mayor cantidad de productos , lo que conlleva un mayor gasto de compra.
+**Figura 8. Histograma sobre el precio de compra.** De esta manera, es fácil ver que muchas compras no superan los 25 euros.Este suceso puede deberse a que entre semana, los compradores solo adquieren productos básicos de higiene,limpieza y comida, mientras que los fines de semana es cuando se adquiere mayor cantidad de productos , lo que conlleva un mayor gasto de compra.
 
 ```{r include=FALSE}
 precio_cantidad <- observaciones[,c("Alimento","Cantidad","Precio")]
@@ -464,7 +470,7 @@ precio_cantidad <- precio_cantidad %>% mutate(PrecioUnidad = Precio / Cantidad)
 cor(precio_cantidad[,c("Cantidad","PrecioUnidad")], method = "spearman")
 ```
 
-**Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
+## 2.5 **Zonas de compra:** ¿Cuál es la distribución geográfica de las compras realizadas?
 
 ```{r echo=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 #Primero compruebo si la dirección es un carácter:
@@ -479,14 +485,14 @@ p <- h + scale_fill_gradient(low="blue",high="red")
 p
 ```
 
-**Figura 4. Diagrama de barras para la variable Ciudad.** Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: -Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas.
+**Figura 9. Diagrama de barras para la variable Ciudad.** Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: -Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas.
 Esta información puede ser útil al considerar la apertura de nuevas tiendas o la reubicación de tiendas existentes para maximizar la conveniencia para los clientes.
 -Optimización de inventario: Al comprender qué productos son más populares en diferentes áreas geográficas, puedes optimizar el inventario de cada tienda para satisfacer las demandas locales.
 Esto puede ayudar a reducir el exceso de inventario y minimizar las pérdidas debido a productos no vendidos.
 -Entender las preferencias de cada zona: Al analizar las zonas geográficas más frecuentes de compra, se puede identificar tendencias y preferencias en cuanto a productos o marcas.
 Esta información es valiosa para adaptar tu oferta de productos y servicios para satisfacer las necesidades y gustos locales.
 
-**Hora más frecuente:** ¿Cuál es la hora más común de compra?
+## 2.6 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
 ```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
 obs_hora_compra<- observaciones %>%
@@ -506,7 +512,7 @@ ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +
 
 ```
 
-**Figura 5. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 13.
+**Figura 10. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 21.
 Esta información puede ser útil para: -Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente.
 -Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos.
 -Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
