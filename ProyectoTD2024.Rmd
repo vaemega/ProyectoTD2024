@@ -257,7 +257,7 @@ ggplot(variaciones_precios[1:10, ], aes(x=reorder(Alimento, -DesviacionEstandar)
 
 **Figura 1. Gráfico de barras para los productos que más cambian de precio.**
 
-\newpage
+s
 
 ## ¿Existen productos con precios más estables que otros?
 
