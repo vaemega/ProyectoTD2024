@@ -494,7 +494,7 @@ Esta información es valiosa para adaptar tu oferta de productos y servicios par
 
 ## 2.6 **Hora más frecuente:** ¿Cuál es la hora más común de compra?
 
-```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
+```{r fig.align='center', fig.height=4, fig.width=5, include=FALSE}
 obs_hora_compra<- observaciones %>%
   group_by(HoraCompra) %>%
   summarise(Count = n_distinct(ticket_id))
