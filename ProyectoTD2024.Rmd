@@ -310,7 +310,7 @@ Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promoc
 observaciones <- observaciones %>% mutate(Alimento = ifelse(grepl("BOLSA PLASTICO", Alimento), "BOLSA PLASTICO", Alimento))
 
 #Observamos los productos más comprados en general
-productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total))
+productos_populares <- observaciones %>% group_by(Alimento) %>% summarise(Cantidad_Total = sum(Cantidad)) %>% arrange(desc(Cantidad_Total)) 
 #Extraemos los primeros 5 productos populares que se han comprado
 top_5_productos <- productos_populares %>%
     head(n = 5)
@@ -322,12 +322,7 @@ productos_frecuentes <- observaciones %>%
 #Extraemos los primeros 5 productos populares que se han comprado con sus frecuencias
 top_5_frecuentes <- productos_frecuentes %>%
     head(n = 5)
-#Creamos el gráfico para representar los productos populares 
-ggplot(top_5_productos, aes(x = Alimento, y = Cantidad_Total, fill = Alimento)) +
-    geom_bar(stat = "identity") +
-    labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")+
-    labs(title = "Productos más comprados por Cantidad Total", x = "Alimento", y = "Cantidad Total")+
-      theme(axis.text.x = element_text(angle = 25, hjust = 1))
+
       
 #Creamos el gráfico para representar los productos populares con las frecuencias 
 ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra, fill = Alimento)) +
