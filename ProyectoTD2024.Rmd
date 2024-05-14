@@ -48,12 +48,14 @@ tabla <- data.frame(
                 "Producto",
                 "Cantidad",
                 "Precio",
-                "Hora",
-                "Fecha",
-                "Calle",
+                "HoraCompra",
+                "FechaCompra",
+                "Direccion",
                 "HoraEntrada",
                 "HoraSalida",
+                "PrecioParking",
                 "Código postal",
+                "Ciudad",
                 "Parking"
                 ),
   Descripción = c("Identificador del ticket",
@@ -62,22 +64,26 @@ tabla <- data.frame(
                   "Coste del producto",
                   "Hora de la compra",
                   "Fecha de la compra",
-                  "Localización de la tienda",
+                  "Dirección de la tienda",
                   "Hora de salida",
                   "Hora de entrada",
+                  "Precio por uso del parking",
                   "Código postal de la tienda",
+                  "Ciudad donde se ubica el supermercado",
                   "Si se ha usado parking"),
   Ejemplo = c("1",
               "BERENJENA",
               "1",
               "1.30",
-              "19:30",
+              "19:45",
               "09/01/2024",
               "C/ MENORCA (C.C. AQUA) 19",
               "19:15",
               "19:45",
-              "46023 VALENCIA",
-              "SI/NO")
+              "0.00",
+              "46023",
+              "VALENCIA",
+              "SI")
 )
   
 ```
@@ -288,12 +294,13 @@ knitr::kable(tabla2, booktabs = TRUE,caption = 'Alimentos con precios más estab
 ```
 
 Al analizar la variación de precios de los productos dependiendo del supermercado, podemos incluir las siguientes conclusiones.
+
 Identificar qué supermercados ofrecen los mejores precios para ciertos productos y cómo esto afecta la elección del consumidor.
-Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promocionales para ser más competitivos.
-Comprender cómo la variación de precios entre supermercados influye en los hábitos de compra.
-Por ejemplo, si los consumidores prefieren viajar más lejos para obtener mejores precios o si la comodidad supera el ahorro.
+
+Esto puede ayudar a los supermercados a ajustar sus precios o estrategias promocionales para ser más competitivos. Comprender cómo la variación de precios entre supermercados influye en los hábitos de compra. Por ejemplo, si los consumidores prefieren viajar más lejos para obtener mejores precios o si la comodidad supera el ahorro.
 
 ## 2.2 **Productos Populares:** ¿Cuáles son los productos más comprados en general?
+
 ¿Algunos productos son adquiridos con mayor frecuencia que otros?
 
 ```{r echo=FALSE,fig.height=4, fig.width=5,fig.align='center'}
@@ -328,18 +335,25 @@ ggplot(top_5_frecuentes, aes(x = Alimento, y = Frecuencia_Compra, fill = Aliment
 ```
 
 **Figura 2. Gráfico de barras para los Productos populares.** El eje horizontal (X) muestra los nombres de los productos ("Alimento").
+
 El eje vertical (Y) representa la cantidad total ("Cantidad_Total") comprada para cada producto a lo largo de todos los tickets de compra analizados.
+
 Las barras del gráfico se extienden hacia arriba, siendo su altura proporcional a la cantidad total comprada de cada producto.
+
 En base a este gráfico, podemos identificar visualmente cuáles son los productos con mayor volumen de compra total.
 Ésta información es útil para conocer qué productos son los más demandados en términos de la cantidad absoluta comprada por los clientes.
+
 En resumen, la bolsa plástica es el producto más comprado, mientras que el plátano, bebida soja café, jamón c.extra, y banana tienen aproximadamente la misma cantidad comprada.
 
 **Figura 3. Gráfico de barras para la frecuencia de los Productos populares.** El gráfico 3 muestra los 5 productos ("Alimento") más frecuentemente comprados en el eje horizontal (X).
-El eje vertical (Y) representa la "Frecuencia_Compra" para cada producto.
-Éste valor indica cuántas veces aparece un determinado producto en los tickets de compra analizados.
-La altura de cada barra refleja la frecuencia de compra de cada producto.
+
+El eje vertical (Y) representa la "Frecuencia_Compra" para cada producto. Éste valor indica cuántas veces aparece un determinado producto en los tickets de compra analizados. La altura de cada barra refleja la frecuencia de compra de cada producto.
+
 Unas barras más altas indican que el producto correspondiente se compró con mayor frecuencia a lo largo del periodo analizado.
-Beneficios del análisis de productos y las frecuencias: 1-Comprensión del Comportamiento del Consumidor: Permite conocer qué productos son más demandados por los clientes 2-Optimización de Inventario: Al identificar los productos más populares, se puede optimizar la gestión de inventario, asegurando que haya suficiente stock disponible para satisfacer la demanda.
+
+Beneficios del análisis de productos y las frecuencias: 
+1-Comprensión del Comportamiento del Consumidor: Permite conocer qué productos son más demandados por los clientes 
+2-Optimización de Inventario: Al identificar los productos más populares, se puede optimizar la gestión de inventario, asegurando que haya suficiente stock disponible para satisfacer la demanda.
 
 ## 2.3 **Parking:** ¿Cuánta gente usa el aparcamiento del supermercado?
 
@@ -357,9 +371,12 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
 ```
 
 **Figura 4. Gráfico de barras sobre el uso del parking.** La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
+
 Si solo 23 de 108 tickets indican el uso del aparcamiento, esto podría sugerir que una mayoría significativa de los clientes prefiere utilizar medios de transporte alternativos, como el transporte público, bicicletas o caminar.
 Una baja utilización del aparcamiento podría indicar que el supermercado está ubicado en una zona céntrica o bien conectada, donde los clientes no necesitan usar sus vehículos para llegar.
+
 El supermercado podría reconsiderar el espacio dedicado al aparcamiento.
+
 Si la demanda es baja, podrían rediseñar estos espacios para otros usos que generen ingresos o mejoren la experiencia del cliente.
 
 ## ¿Cuánto dinero paga la gente por este servicio?
@@ -380,10 +397,13 @@ ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
 ```
 
 **Figura 5. Gráfico de barras para el precio del parking.**Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito.
+
 Esto sugiere que sus compras son relativamente rápidas y no superan la hora, o que están gastando al menos 20€ para obtener dos horas gratis.
+
 El hecho de que solo un ticket muestre un pago de entre 0.5€ y 1€ indica que es poco común que los clientes excedan las dos horas de aparcamiento gratuito.
-Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes.
-La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis.
+
+Esto podría significar que la mayoría de las visitas al supermercado son breves y posiblemente eficientes. La política de aparcamiento gratuito puede ser un incentivo efectivo para que los clientes gasten más para alcanzar el umbral de los 20€ y obtener una hora adicional gratis.
+
 Además, la tarifa de 8 céntimos por minuto después de las dos horas podría ser un disuasivo suficiente para evitar que los clientes se excedan, manteniendo así la rotación de espacios de aparcamiento.
 
 ## ¿Existe un intervalo horario donde el aparcamiento esté más transitado de lo normal?
@@ -413,10 +433,13 @@ ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
 ```
 
 **Figura 6. Gráfico de barras sobre los intervalos horarios del uso del parking.** El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
+
 Esto podría deberse a que las personas prefieren hacer sus compras después del trabajo o en las horas de la tarde-noche.
 El supermercado podría necesitar más personal y cajas abiertas durante este período pico para manejar el aumento del flujo de clientes y evitar largas colas.
+
 Podría ser una oportunidad para el supermercado de lanzar promociones o descuentos específicos en este horario para atraer aún más clientes o para incentivar las visitas en las franjas horarias menos concurridas.
 Estos datos pueden ser un indicativo de los hábitos de vida de la comunidad local.
+
 Por ejemplo, si la cultura local favorece las cenas tardías, esto podría explicar por qué hay más actividad en el supermercado durante las últimas horas del día.
 
 ## 2.4 **Gasto promedio y distribución:** ¿Cuál es el promedio de gasto por compra?
@@ -487,8 +510,9 @@ p
 
 **Figura 9. Diagrama de barras para la variable Ciudad.** Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: -Ubicación de tiendas: Si identificas las zonas geográficas donde se concentran la mayoría de las compras, esto puede indicar la demanda en áreas específicas.
 Esta información puede ser útil al considerar la apertura de nuevas tiendas o la reubicación de tiendas existentes para maximizar la conveniencia para los clientes.
--Optimización de inventario: Al comprender qué productos son más populares en diferentes áreas geográficas, puedes optimizar el inventario de cada tienda para satisfacer las demandas locales.
-Esto puede ayudar a reducir el exceso de inventario y minimizar las pérdidas debido a productos no vendidos.
+
+-Optimización de inventario: Al comprender qué productos son más populares en diferentes áreas geográficas, puedes optimizar el inventario de cada tienda para satisfacer las demandas locales. Esto puede ayudar a reducir el exceso de inventario y minimizar las pérdidas debido a productos no vendidos.
+
 -Entender las preferencias de cada zona: Al analizar las zonas geográficas más frecuentes de compra, se puede identificar tendencias y preferencias en cuanto a productos o marcas.
 Esta información es valiosa para adaptar tu oferta de productos y servicios para satisfacer las necesidades y gustos locales.
 
@@ -512,15 +536,21 @@ ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +
 
 ```
 
-**Figura 10. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 21.
-Esta información puede ser útil para: -Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente.
+**Figura 10. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 21. Esta información puede ser útil para: 
+
+-Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente.
+
 -Gestión de inventario: Conocer las horas pico de compra puede ayudar a prever la demanda de ciertos productos y garantizar que haya suficiente inventario disponible durante esos momentos.
+
 -Planificación de promociones: Si se observa que hay ciertas horas del día en las que las ventas son más bajas, se podría considerar la implementación de promociones especiales para estimular las ventas durante esos períodos.
+
 En resumen, entender la hora más frecuente de compras puede ayudar a mejorar la eficiencia operativa, gestionar el inventario de manera más efectiva, optimizar las estrategias de marketing y aumentar las ventas en general.
 
 # Conclusión
 
-En conclusión, el desarrollo de este proyecto sobre la extracción de información de tickets del supermercado Mercadona ha sido todo un reto para nosotros ya que es la primera vez que nos enfrentabamos a un trabajo de este tipo.Desde el inicio del proyecto, abordamos diversas cuestiones sobre el conjunto de datos, desde la distribución de variables numéricas como el precio de compra, hasta la exploración de relaciones entre diferentes variables como la relación entre el precio y la cantidad vendida.
+En conclusión, el desarrollo de este proyecto sobre la extracción de información de tickets del supermercado Mercadona ha sido todo un reto para nosotros ya que es la primera vez que nos enfrentábamos a un trabajo de este tipo. Desde el inicio del proyecto, abordamos diversas cuestiones sobre el conjunto de datos, desde la distribución de variables numéricas como el precio de compra, hasta la exploración de relaciones entre diferentes variables como la relación entre el precio y la cantidad vendida.
+
 Todo ello nos ha proporcionado un conocimiento sólido sobre el problema en un corto período de tiempo, sin necesidad de especializarnos como expertos en el campo.
+
 Además, nos hemos enfrentado a desafíos comunes en el análisis de datos, como la falta de datos o errores en los mismos, lo que nos ha permitido desarrollar habilidades para abordar estos problemas de manera efectiva.
-Sin embargo, consideramos que lo más importante de este proyecto es el habernos enfrentado por primera vez a un problema real en Ciencia de Datos.Además,la necesidad de tomar decisiones en equipo nos ha permitido desarrollar habilidades colaborativas, lo cual sin duda enriquecerá nuestra capacidad para trabajar en equipo en futuras situaciones.
+Sin embargo, consideramos que lo más importante de este proyecto es el habernos enfrentado por primera vez a un problema real en Ciencia de Datos. Además,la necesidad de tomar decisiones en equipo nos ha permitido desarrollar habilidades colaborativas, lo cual sin duda enriquecerá nuestra capacidad para trabajar en equipo en futuras situaciones.
