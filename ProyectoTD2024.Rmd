@@ -2,7 +2,7 @@
 title: "ProyectoTD2024"
 subtitle: Tratamiento de Datos. Grado en Ciencia de Datos- UV
 author: Sergio Taengua Díaz, Valentina Elisa Medina Gallazzi, Narcis Casian Romega,
-  Sheida Zolfaghari y Adrián Yuste Rebollo
+  Sheida Zolfaghari
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
