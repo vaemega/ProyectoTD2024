@@ -366,7 +366,7 @@ ggplot(uso_parking_total, aes(x = Parking, y = Count, fill = Parking)) +
   theme_minimal()
 ```
 
-**Figura 4. Gráfico de barras sobre el uso del parking.** 
+**Figura 3. Gráfico de barras sobre el uso del parking.** 
 
 La información que hemos recopilado sobre el uso del aparcamiento por parte de los clientes que han adquirido tickets electrónicos es un dato interesante y puede revelar varias tendencias o patrones de comportamiento.
 
@@ -392,7 +392,7 @@ ggplot(precio_parking_por_ticket, aes(x = PrecioParking, y = Count)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-**Figura 5. Gráfico de barras para el precio del parking.**
+**Figura 4. Gráfico de barras para el precio del parking.**
 
 Basándonos en la información obtenida, podemos inferir varias conclusiones sobre el comportamiento de los clientes y la utilización del servicio de aparcamiento: dado que 22 de los 23 tickets que utilizaron el aparcamiento no pagaron nada, es probable que la mayoría de los clientes estén aprovechando la oferta de una hora de aparcamiento gratuito.
 
@@ -430,7 +430,7 @@ ggplot(observaciones_unicas, aes(x = Intervalo, y = n, fill = Intervalo)) +
   theme(legend.position = "none")
 ```
 
-**Figura 6. Gráfico de barras sobre los intervalos horarios del uso del parking.** 
+**Figura 5. Gráfico de barras sobre los intervalos horarios del uso del parking.** 
 
 El histograma que hemos creado y los datos que refleja sobre las franjas horarias de entrada al aparcamiento pueden proporcionar varias conclusiones interesantes: El hecho de que el intervalo de 18:00-21:30 sobresalga indica que es el momento más popular para visitar el supermercado.
 
@@ -474,7 +474,7 @@ data_compra %>%
         axis.title.x=element_blank()) 
 ```
 
-**Figura 7. Gráfico de dispersión para el precio total por compra.** 
+**Figura 6. Gráfico de dispersión para el precio total por compra.** 
 
 A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros. Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
 
@@ -488,7 +488,7 @@ A primera vista este gráfico no resulta muy revelador, aunque si observamos det
  labs(title="Histograma del gasto de compra",x="Precio",y="Cantidad")
 ```
 
-**Figura 8. Histograma sobre el precio de compra.** 
+**Figura 7. Histograma sobre el precio de compra.** 
 
 De esta manera, es fácil ver que muchas compras no superan los 25 euros.Este suceso puede deberse a que entre semana, los compradores solo adquieren productos básicos de higiene,limpieza y comida, mientras que los fines de semana es cuando se adquiere mayor cantidad de productos , lo que conlleva un mayor gasto de compra.
 
@@ -513,7 +513,7 @@ p <- h + scale_fill_gradient(low="blue",high="red")
 p
 ```
 
-**Figura 9. Diagrama de barras para la variable Ciudad.** 
+**Figura 8. Diagrama de barras para la variable Ciudad.** 
 
 Podemos observar en el gráfico de barras que la ciudad con más ventas es Valencia.Esta información puede ser de utilidad para: 
 
@@ -543,7 +543,7 @@ ggplot(data = obs_hora_compra, aes(x = HoraCompra, y = Count, fill = Count)) +
 
 ```
 
-**Figura 10. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 21. Esta información puede ser útil para: 
+**Figura 9. Diagrama de barras para la variable HoraCompra.** Tal y como se aprecia en el gráfico, la hora más común de compra es a las 20 y la menos común a las 21. Esta información puede ser útil para: 
 
 -Optimización del personal: Saber cuándo hay más afluencia de clientes puede ayudar a programar los turnos de los empleados de manera más eficiente.
 
