@@ -450,7 +450,7 @@ data_compra %>%
         axis.title.x=element_blank()) 
 ```
 
-**Figura 7. Gráfico de dispersión para el precio total por compra.** A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros.Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
+**Figura 7. Gráfico de dispersión para el precio total por compra.** A primera vista este gráfico no resulta muy revelador, aunque si observamos detenidamente nos daremos cuenta de que hay unos precios de compra más habituales que otros, ya que se concentra más cantidad de puntos(tickets) en unos intervalos que en otros. Para poder ver mejor esto, hemos credo un histograma en donde el precio total de cada ticket ha sido discretizado en intervalos de 10.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,fig.height=4, fig.width=5,fig.align='center'}
  ggplot(data=data_compra, aes(x=Precio))+
